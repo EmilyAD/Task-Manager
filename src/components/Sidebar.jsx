@@ -42,11 +42,6 @@ export default function Sidebar() {
           Add Task
         </Link>
 
-        <Link to="/my-tasks" className={linkClass("/my-tasks")}>
-          <Flower2 size={18} />
-          My Garden
-        </Link>
-
         <Link to="/profile" className={linkClass("/profile")}>
           <User size={18} />
           Profile
