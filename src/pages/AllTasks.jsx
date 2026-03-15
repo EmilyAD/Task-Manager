@@ -2,10 +2,18 @@ import { useState, useMemo } from "react";
 import { useApp } from "../context/AppContext";
 import TaskCard from "../components/TaskCard";
 import { Search } from "lucide-react";
+import { Sprout, Trophy } from "lucide-react";
 
 export default function AllTasks() {
 
   const { tasks, completeTask } = useApp();
+const completedTasks = tasks.filter(t => t.completed);
+
+const plantsByCategory = completedTasks.reduce((acc, task) => {
+  if (!acc[task.category]) acc[task.category] = [];
+  acc[task.category].push(task);
+  return acc;
+}, {});
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("all");
@@ -162,7 +170,126 @@ export default function AllTasks() {
         ))}
 
       </div>
+{/* MY GARDEN */}
+<div className="max-w-7xl mx-auto space-y-6 mt-16">
+
+  <div className="flex items-center justify-between">
+
+    <div>
+      <h1 className="text-3xl font-bold text-gray-900">
+        My Garden
+      </h1>
+
+      <p className="text-gray-600 mt-1">
+        A beautiful collection of your completed tasks
+      </p>
+    </div>
+
+    <div className="flex items-center gap-2 px-4 py-2 bg-green-100 rounded-lg">
+      <Trophy className="w-5 h-5 text-green-600"/>
+      <span className="font-semibold text-green-900">
+        {completedTasks.length} Plants
+      </span>
+    </div>
+
+  </div>
+
+
+  {/* Garden field */}
+  <div className="bg-gradient-to-b from-sky-100 via-sky-50 to-green-100 rounded-xl p-8 border min-h-[500px]">
+
+    <div className="text-right mb-8 text-6xl">
+      ☀️
+    </div>
+
+    <div className="flex gap-6 flex-wrap mb-10">
+
+      {completedTasks.map((task,index)=>(
+        <div
+          key={task.id}
+          className="text-5xl animate-bounce"
+          style={{animationDelay:`${index*0.2}s`}}
+        >
+          {task.plantType}
+        </div>
+      ))}
 
     </div>
+
+    <div className="h-8 bg-gradient-to-b from-green-600 to-green-800 rounded-lg"></div>
+
+  </div>
+
+
+  {/* Category cards */}
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+    {Object.entries(plantsByCategory).map(([category,plants])=>(
+      <div key={category} className="bg-white rounded-xl p-6 shadow-sm border">
+
+        <h3 className="font-semibold mb-3">
+          {category}
+        </h3>
+
+        <div className="flex gap-2 mb-3 text-3xl">
+          {plants.map(p=>(
+            <span key={p.id}>{p.plantType}</span>
+          ))}
+        </div>
+
+        <p className="text-sm text-gray-500">
+          {plants.length} plant grown
+        </p>
+
+      </div>
+    ))}
+
+  </div>
+
+
+  {/* Garden stats */}
+  <div className="bg-white rounded-xl p-6 shadow-sm border">
+
+    <h2 className="text-xl font-bold mb-4">
+      Garden Statistics
+    </h2>
+
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+
+      <div>
+        <p className="text-3xl font-bold text-green-600">
+          {completedTasks.length}
+        </p>
+        <p className="text-sm text-gray-500">Total Plants</p>
+      </div>
+
+      <div>
+        <p className="text-3xl font-bold text-purple-600">
+          {Object.keys(plantsByCategory).length}
+        </p>
+        <p className="text-sm text-gray-500">Categories</p>
+      </div>
+
+      <div>
+        <p className="text-3xl font-bold text-yellow-600">
+          {new Set(completedTasks.map(t=>t.plantType)).size}
+        </p>
+        <p className="text-sm text-gray-500">Plant Types</p>
+      </div>
+
+      <div>
+        <p className="text-3xl font-bold text-blue-600">
+          {completedTasks.length}
+        </p>
+        <p className="text-sm text-gray-500">This Week</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+    </div>
+    
   );
 }
