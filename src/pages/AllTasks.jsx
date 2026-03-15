@@ -1,97 +1,196 @@
-import { useState, useMemo } from "react";
-import { useApp } from "../context/AppContext";
-import TaskCard from "../components/TaskCard";
-import { Search } from "lucide-react";
+import { useState } from "react";
 
 export default function AllTasks() {
-  const { tasks, completeTask, searchQuery, setSearchQuery } = useApp();
+  const [search, setSearch] = useState("");
 
-  const [filter, setFilter] = useState("all");
-  const [sortBy, setSortBy] = useState("date");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-
-  const categories = useMemo(() => {
-    const cats = new Set(tasks.map((t) => t.category));
-    return ["all", ...Array.from(cats)];
-  }, [tasks]);
-
-  const filteredTasks = useMemo(() => {
-    let filtered = tasks;
-
-    if (filter === "active") {
-      filtered = filtered.filter((t) => !t.completed);
-    } else if (filter === "completed") {
-      filtered = filtered.filter((t) => t.completed);
+  const tasks = [
+    {
+      id: 1,
+      title: "Complete project proposal",
+      description: "Write and submit the Q2 proposal",
+      category: "Work",
+      progress: 75,
+      due: "Mar 20",
+      icon: "🌱"
+    },
+    {
+      id: 2,
+      title: "Team meeting preparation",
+      description: "Prepare slides for weekly meeting",
+      category: "Work",
+      progress: 50,
+      due: "Mar 17",
+      icon: "🌿"
+    },
+    {
+      id: 3,
+      title: "Grocery shopping",
+      description: "Buy ingredients for meals",
+      category: "Personal",
+      progress: 25,
+      due: "Mar 16",
+      icon: "🌻"
+    },
+    {
+      id: 4,
+      title: "Morning meditation",
+      description: "Daily 15-minute meditation",
+      category: "Personal",
+      progress: 100,
+      due: "Mar 15",
+      icon: "🌸"
+    },
+    {
+      id: 5,
+      title: "Read Atomic Habits",
+      description: "Continue reading the book",
+      category: "Learning",
+      progress: 100,
+      due: "Mar 14",
+      icon: "🌼"
     }
-
-    if (selectedCategory !== "all") {
-      filtered = filtered.filter((t) => t.category === selectedCategory);
-    }
-
-    if (searchQuery) {
-      filtered = filtered.filter(
-        (t) =>
-          t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          t.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    filtered = [...filtered].sort((a, b) => {
-      if (sortBy === "name") {
-        return a.title.localeCompare(b.title);
-      } else if (sortBy === "growth") {
-        return b.growthStage - a.growthStage;
-      } else {
-        return new Date(b.dueDate) - new Date(a.dueDate);
-      }
-    });
-
-    return filtered;
-  }, [tasks, filter, selectedCategory, searchQuery, sortBy]);
+  ];
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="space-y-6">
 
-      {/* Header */}
+      {/* PAGE HEADER */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">All Tasks</h1>
-        <p className="text-gray-600 mt-1">
-          Manage and track all your tasks
+        <h1 className="text-3xl font-bold text-gray-900">
+          All Tasks
+        </h1>
+
+        <p className="text-gray-500">
+          Manage and track all your growing tasks
         </p>
       </div>
 
-      {/* Search */}
-      <div className="bg-white rounded-xl p-4 border border-gray-200">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+      {/* SEARCH + FILTERS */}
+      <div className="bg-white rounded-xl border p-5 space-y-4">
+
+        <div className="flex gap-4">
 
           <input
             type="text"
             placeholder="Search tasks..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg"
+            className="flex-1 px-4 py-2 border rounded-lg"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
+
+          <select className="px-4 py-2 border rounded-lg">
+            <option>All Tasks</option>
+            <option>Active</option>
+            <option>Completed</option>
+          </select>
+
+          <select className="px-4 py-2 border rounded-lg">
+            <option>Due Date</option>
+            <option>Name</option>
+          </select>
+
         </div>
+
+        {/* CATEGORY BUTTONS */}
+        <div className="flex gap-3">
+
+          <button className="bg-green-600 text-white px-4 py-2 rounded-lg">
+            All Categories
+          </button>
+
+          <button className="bg-gray-200 px-4 py-2 rounded-lg">
+            Work
+          </button>
+
+          <button className="bg-gray-200 px-4 py-2 rounded-lg">
+            Personal
+          </button>
+
+          <button className="bg-gray-200 px-4 py-2 rounded-lg">
+            Learning
+          </button>
+
+        </div>
+
       </div>
 
-      {/* Task Grid */}
-      {filteredTasks.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredTasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              task={task}
-              onComplete={() => completeTask(task.id)}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="bg-white rounded-xl p-12 text-center border">
-          <div className="text-6xl mb-4">🔍</div>
-          <p className="text-gray-600">No tasks found</p>
-        </div>
-      )}
+      {/* TASK COUNT */}
+      <p className="text-gray-500">
+        Showing {tasks.length} tasks
+      </p>
+
+      {/* TASK GRID */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        {tasks.map((task) => (
+          <div
+            key={task.id}
+            className="bg-white rounded-xl border p-5 shadow-sm space-y-3"
+          >
+
+            {/* HEADER */}
+            <div className="flex justify-between">
+
+              <div className="flex gap-3">
+
+                <span className="text-3xl">
+                  {task.icon}
+                </span>
+
+                <div>
+
+                  <h3 className="font-semibold text-lg">
+                    {task.title}
+                  </h3>
+
+                  <p className="text-sm text-gray-500">
+                    {task.description}
+                  </p>
+
+                </div>
+
+              </div>
+
+              <input type="checkbox" />
+
+            </div>
+
+            {/* PROGRESS */}
+            <div>
+
+              <div className="h-2 bg-gray-200 rounded">
+
+                <div
+                  className="h-2 bg-green-500 rounded"
+                  style={{ width: `${task.progress}%` }}
+                />
+
+              </div>
+
+              <p className="text-right text-sm text-gray-500">
+                {task.progress}%
+              </p>
+
+            </div>
+
+            {/* CATEGORY + DATE */}
+            <div className="flex justify-between text-sm">
+
+              <span className="bg-purple-200 text-purple-800 px-3 py-1 rounded-full">
+                {task.category}
+              </span>
+
+              <span className="text-gray-500">
+                📅 {task.due}
+              </span>
+
+            </div>
+
+          </div>
+        ))}
+
+      </div>
+
     </div>
   );
 }
