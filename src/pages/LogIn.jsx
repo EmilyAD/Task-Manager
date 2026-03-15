@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword } from "../utils/validators";
 
 export default function Login() {
+    const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -37,7 +38,7 @@ export default function Login() {
 
     if (!validateForm()) return;
 
-    alert("Login submitted successfully.");
+    navigate("/tasks");
   }
 
   return (
