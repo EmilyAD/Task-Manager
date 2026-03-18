@@ -12,8 +12,7 @@ export default function Sidebar() {
     }`;
 
   return (
-    <div className="h-screen w-64 bg-gray-900 text-white flex flex-col p-6">
-
+<div className="h-screen w-64 bg-white text-gray-900 flex flex-col p-6 border-r border-gray-200">
       {/* Logo */}
       <h2 className="text-2xl font-bold mb-10 flex items-center gap-2">
         🌱 Bloomly
@@ -22,10 +21,7 @@ export default function Sidebar() {
       {/* Navigation */}
       <nav className="flex flex-col gap-2">
 
-        <Link to="/" className={linkClass("/")}>
-          <LayoutDashboard size={18} />
-          Dashboard
-        </Link>
+       
 
         <Link to="/tasks" className={linkClass("/tasks")}>
           <ListTodo size={18} />

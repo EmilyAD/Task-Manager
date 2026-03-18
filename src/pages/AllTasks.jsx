@@ -124,29 +124,7 @@ const plantsByCategory = completedTasks.reduce((acc, task) => {
           </select>
 
         </div>
-
-
-        {/* CATEGORY FILTERS */}
-        <div className="flex gap-2 flex-wrap">
-
-          {categories.map(cat => (
-
-            <button
-              key={cat}
-              onClick={()=>setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition
-                ${selectedCategory===cat
-                  ? "bg-green-600 text-white"
-                  : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"}
-              `}
-            >
-              {cat === "all" ? "All Categories" : cat}
-            </button>
-
-          ))}
-
-        </div>
-
+        
       </div>
 
 
