@@ -6,6 +6,7 @@ import AllTasks from "./pages/AllTasks";
 import LogIn from "./pages/LogIn";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
            <Route path="/login" element={<LogIn />} />
            <Route path="/forgot-password" element={<ForgotPassword />} />
            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/register" element={<Register />} />
+
+
 
           </Routes>
 
