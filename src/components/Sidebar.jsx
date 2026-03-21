@@ -42,7 +42,7 @@ export default function Sidebar() {
           <User size={18} />
           Profile
         </Link>
-
+        
       </nav>
 
       {/* Logout button */}
