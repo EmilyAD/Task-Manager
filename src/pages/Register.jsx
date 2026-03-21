@@ -240,4 +240,8 @@ export default function Register() {
       </div>
     </section>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a5e72579c0da19fd760db88c6393a3ea1ebae5dd
