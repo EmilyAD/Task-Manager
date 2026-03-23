@@ -59,7 +59,7 @@ export default function AddEditTask() {
 
     if (isEditing && existingTask) {
       
-      updateTask(existingTask, formData);
+      updateTask(existingTask.id, formData);
     } else {
       addTask(formData);
     }
@@ -155,20 +155,22 @@ export default function AddEditTask() {
         {/* PLANT TYPES */}
         <div>
           <label className="block text-sm font-medium mb-3 text-gray-900 dark:text-white">Choose Your Plant</label>
-          <div className="grid grid-cols-5 gap-4">
+          <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 sm:gap-4">
             {plantTypes.map((plant) => (
               <button
                 key={plant.emoji}
                 type="button"
                 onClick={() => setFormData({ ...formData, plantType: plant.emoji })}
-                className={`h-28 flex flex-col items-center justify-center rounded-xl border-2 transition ${
-                  formData.plantType === plant.emoji
+                className={`flex flex-col items-center justify-center rounded-xl border-2 transition 
+                  ${formData.plantType === plant.emoji
                     ? "border-green-500 bg-green-50 dark:bg-green-800"
-                    : "border-gray-200 hover:border-gray-300 dark:border-gray-700"
-                } text-gray-900 dark:text-white`}
+                    : "border-gray-200 hover:border-gray-300 dark:border-gray-700"} 
+                  text-gray-900 dark:text-white h-20 sm:h-28`}
               >
-                <span className="text-3xl">{plant.emoji}</span>
-                <span className="text-xs text-gray-600 dark:text-gray-300 mt-1 text-center px-1">{plant.name}</span>
+                <span className="text-2xl sm:text-3xl">{plant.emoji}</span>
+                <span className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 mt-1 text-center px-1">
+                  {plant.name}
+                </span>
               </button>
             ))}
           </div>

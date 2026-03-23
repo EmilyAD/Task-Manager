@@ -71,9 +71,9 @@ export function AppProvider({ children }) {
     ]);
   };
 
-  const updateTask = (oldTask, newData) => {
+  const updateTask = (id, newData) => {
   setTasks(tasks.map(task =>
-    task === oldTask ? { ...task, ...newData } : task
+    task.id === id ? { ...task, ...newData } : task
   ));
 };
 
