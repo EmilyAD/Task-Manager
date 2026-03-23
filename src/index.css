@@ -29,3 +29,7 @@ html.dark {
 .plant-icon:nth-child(3) {
   animation-delay: 0.8s;
 }
+
+input[type="password"] {
+  color-scheme: dark;
+}

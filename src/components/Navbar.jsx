@@ -25,7 +25,9 @@ export default function Navbar() {
         <Link to="/my-tasks" className="hover:text-green-600">
           My Tasks
         </Link>
-
+        <Link to="/TaskProgress" className="hover:text-green-600">
+          TaskProgress
+        </Link>
         <Link to="/profile" className="hover:text-green-600">
           Profile
         </Link>
