@@ -42,22 +42,20 @@ export default function Login() {
   }
 
   return (
-    <section className="min-h-screen bg-[#f4f4f1] flex items-center justify-center px-4 py-8">
-
-      <div className="w-full max-w-[760px] bg-white rounded-[20px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] px-6 py-10 md:px-12 md:py-12 flex flex-col items-center">
-
+<section className="min-h-screen bg-[#f4f4f1] dark:bg-[#0f1c0f] flex items-center justify-center px-4 py-8 transition-colors duration-300">
+      <div className="w-full max-w-[760px] bg-white dark:bg-[#1b2c1b] rounded-[20px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] px-6 py-10 md:px-12 md:py-12 flex flex-col items-center transition-colors duration-300">
         {/* Logo */}
         <div className="w-24 h-24 rounded-full bg-[#73986a] flex items-center justify-center text-[2.6rem] mb-6">
           🌱
         </div>
 
         {/* Title */}
-        <h1 className="text-center text-[2rem] md:text-[2.8rem] font-extrabold text-[#23311f] whitespace-nowrap">
+        <h1 className="text-center text-[2rem] md:text-[2.8rem] font-extrabold text-[#23311f] dark:text-white">
           Welcome Back to Bloomly
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-4 text-center text-[1rem] md:text-[1.1rem] text-[#6d7187]">
+        <p className="mt-4 text-center text-[1rem] md:text-[1.1rem] text-[#6d7187] dark:text-[#b9c2b0]">
           Login to continue growing your garden
         </p>
 
@@ -76,7 +74,7 @@ export default function Login() {
         >
 
           {/* Email */}
-          <label className="text-sm font-bold text-[#23311f] mt-2">
+          <label className="text-sm font-bold text-[#23311f] dark:text-white mt-2">
             Email
           </label>
 
@@ -86,15 +84,15 @@ export default function Login() {
             placeholder="your@email.com"
             value={formData.email}
             onChange={handleChange}
-            className="border-0 border-b border-gray-300 py-3 outline-none focus:border-[#73986a]"
+            className="border-0 border-b border-gray-300 dark:border-gray-600 py-3 outline-none focus:border-[#73986a] bg-transparent text-[#6d7187] dark:text-white placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a]" 
           />
 
           {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            <p className="mt-10 text-gray-500 dark:text-[#b9c2b0] text-center"/>
           )}
 
           {/* Password */}
-          <label className="text-sm font-bold text-[#23311f] mt-6">
+          <label className="text-sm font-bold text-[#23311f] dark:text-white mt-2">
             Password
           </label>
 
@@ -104,7 +102,11 @@ export default function Login() {
             placeholder="••••••••"
             value={formData.password}
             onChange={handleChange}
-            className="border-0 border-b border-gray-300 py-3 outline-none focus:border-[#73986a]"
+            className="w-full border-0 border-b border-gray-300 dark:border-gray-600 
+             bg-transparent dark:bg-transparent
+             text-[#6d7187] dark:text-white
+             placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a]
+             py-3 outline-none focus:border-[#73986a]"
           />
 
           {errors.password && (
@@ -138,10 +140,8 @@ export default function Login() {
         </p>
 
         <p className="mt-3 text-center">
-          <Link
-            to="/"
-            className="font-semibold text-[#23311f] hover:underline"
-          >
+          <Link to="/"  className="text-[#73986a] dark:text-[#8fbf7a] 
+            font-bold hover:underline">
             Back to Home
           </Link>
         </p>

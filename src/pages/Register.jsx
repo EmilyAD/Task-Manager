@@ -100,17 +100,27 @@ export default function Register() {
 }
 
   return (
-    <section className="min-h-screen bg-[#f4f4f1] flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-[860px] bg-white rounded-[20px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] px-6 py-10 md:px-12 md:py-12 flex flex-col items-center">
+    <section className="min-h-screen bg-[#f4f4f1] dark:bg-[#0f1c0f] 
+flex items-center justify-center px-4 py-8 
+transition-colors duration-300">
+      <div className="w-full max-w-[760px] 
+bg-white dark:bg-[#1b2c1b] 
+rounded-[20px] 
+shadow-[0_12px_40px_rgba(0,0,0,0.08)] 
+px-6 py-10 md:px-12 md:py-12 
+flex flex-col items-center 
+transition-colors duration-300">
         <div className="w-24 h-24 rounded-full bg-[#73986a] flex items-center justify-center text-[2.6rem] mb-6">
           🌱
         </div>
 
-        <h1 className="text-center text-[2rem] md:text-[2.8rem] font-extrabold text-[#23311f]">
+        <h1 className="text-center text-[2rem] md:text-[2.8rem] 
+font-extrabold text-[#23311f] dark:text-white">
           Join Bloomly
         </h1>
 
-        <p className="mt-4 text-center text-[1rem] md:text-[1.1rem] text-[#6d7187]">
+        <p className="mt-4 text-center text-[1rem] md:text-[1.1rem] 
+text-[#6d7187] dark:text-[#b9c2b0]">
           Start your productivity garden today
         </p>
 
@@ -119,7 +129,7 @@ export default function Register() {
           onSubmit={handleSubmit}
           noValidate
         >
-          <label className="text-sm font-bold text-[#23311f] mt-2">
+          <label className="text-sm font-bold text-[#23311f] dark:text-white mt-6">
             Name
           </label>
           <input
@@ -134,7 +144,7 @@ export default function Register() {
             <p className="text-red-500 text-sm mt-1">{errors.name}</p>
           )}
 
-          <label className="text-sm font-bold text-[#23311f] mt-6">
+          <label className="text-sm font-bold text-[#23311f] dark:text-white mt-6">
             Email
           </label>
           <input
@@ -143,13 +153,18 @@ export default function Register() {
             placeholder="your@email.com"
             value={formData.email}
             onChange={handleChange}
-            className="border-0 border-b border-gray-300 py-3 outline-none focus:border-[#73986a] bg-transparent"
+             className="w-full border-0 border-b border-gray-300 dark:border-gray-600 
+             bg-transparent 
+             text-[#6d7187] dark:text-white 
+             placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a] 
+             py-3 outline-none focus:border-[#73986a] 
+             transition-colors duration-300"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email}</p>
           )}
 
-          <label className="text-sm font-bold text-[#23311f] mt-6">
+          <label className="text-sm font-bold text-[#23311f] dark:text-white mt-6">
             Password
           </label>
           <input
@@ -158,13 +173,18 @@ export default function Register() {
             placeholder="••••••••"
             value={formData.password}
             onChange={handleChange}
-            className="border-0 border-b border-gray-300 py-3 outline-none focus:border-[#73986a] bg-transparent"
+             className="w-full border-0 border-b border-gray-300 dark:border-gray-600 
+             bg-transparent 
+             text-[#6d7187] dark:text-white 
+             placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a] 
+             py-3 outline-none focus:border-[#73986a] 
+             transition-colors duration-300"
           />
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">{errors.password}</p>
           )}
 
-          <label className="text-sm font-bold text-[#23311f] mt-6">
+          <label className="text-sm font-bold text-[#23311f] dark:text-white mt-6">
             Confirm Password
           </label>
           <input
@@ -173,8 +193,13 @@ export default function Register() {
             placeholder="••••••••"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="border-0 border-b border-gray-300 py-3 outline-none focus:border-[#73986a] bg-transparent"
-          />
+             className="w-full border-0 border-b border-gray-300 dark:border-gray-600 
+             bg-transparent 
+             text-[#6d7187] dark:text-white 
+             placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a] 
+             py-3 outline-none focus:border-[#73986a] 
+             transition-colors duration-300"
+             />
           {errors.confirmPassword && (
             <p className="text-red-500 text-sm mt-1">
               {errors.confirmPassword}
@@ -182,10 +207,10 @@ export default function Register() {
           )}
 
           <div className="mt-10">
-            <h2 className="text-[1.05rem] font-bold text-[#23311f]">
+            <h2 className="text-[1.05rem] font-bold text-[#23311f] dark:text-white">
               Choose Your Starter Plant
             </h2>
-            <p className="text-sm text-[#6d7187] mt-2">
+            <p className="text-sm font-bold text-[#23311f] dark:text-white mt-6">
               Pick the plant that will start your Bloomly journey.
             </p>
 
@@ -194,23 +219,27 @@ export default function Register() {
                 const selected = formData.starterPlant === plant.id;
 
                 return (
-                  <button
-                    key={plant.id}
-                    type="button"
-                    onClick={() => handlePlantSelect(plant.id)}
-                    className={`rounded-2xl border p-5 text-center transition hover:-translate-y-1 ${
-                      selected
-                        ? "border-[#73986a] bg-[#f7fbf5] shadow-[0_4px_14px_rgba(115,152,106,0.12)]"
-                        : "border-[#dfe4dc] bg-white"
-                    }`}
-                  >
-                    <div className="text-[2.3rem]">{plant.icon}</div>
-                    <div className="mt-3 text-[1rem] font-bold text-[#23311f]">
+                 <button
+            
+                  key={plant.id}
+                  type="button"
+                  onClick={() => handlePlantSelect(plant.id)}
+                  className={`rounded-2xl border p-5 text-center transition 
+                  hover:-translate-y-1 cursor-pointer
+                  ${
+                    selected
+                      ? "border-[#73986a] bg-[#f7fbf5] dark:bg-[#2a3d2a] shadow-[0_4px_14px_rgba(115,152,106,0.12)]"
+                      : "border-[#dfe4dc] bg-white dark:bg-[#1f2f1f]"
+                  }`}
+                >
+                  <div className="text-[2.3rem]">{plant.icon}</div>
+                    <div className="mt-3 text-[1rem] font-bold text-[#23311f] dark:text-white">
                       {plant.name}
                     </div>
-                    <div className="mt-2 text-sm text-[#6d7187] leading-5">
+                    <div className="mt-2 text-sm text-[#6d7187] dark:text-[#b9c2b0] leading-5">
                       {plant.description}
                     </div>
+                  
                   </button>
                 );
               })}
@@ -223,13 +252,19 @@ export default function Register() {
 
           <button
             type="submit"
-            className="mt-10 bg-[#73986a] text-white py-4 rounded-xl font-bold hover:opacity-90 transition"
-          >
+            
+           className="mt-10 w-full 
+            bg-[#73986a] dark:bg-[#8fbf7a] 
+            text-white dark:text-[#0f1c0f] 
+            py-4 rounded-xl font-bold 
+            hover:opacity-90 transition"
+>
+          
             Create Account
           </button>
         </form>
 
-        <p className="mt-10 text-gray-500 text-center">
+        <p className="mt-10 text-gray-500 dark:text-[#b9c2b0] text-center">
           Already have an account?{" "}
           <Link to="/login" className="text-[#73986a] font-bold">
             Login
@@ -239,8 +274,11 @@ export default function Register() {
         <p className="mt-3 text-center">
           <Link
             to="/"
-            className="font-semibold text-[#23311f] hover:underline"
-          >
+           
+              className="text-[#73986a] dark:text-[#8fbf7a] 
+              font-bold hover:underline"
+>
+          
             Back to Home
           </Link>
         </p>
