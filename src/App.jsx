@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import AddEditTask from "./pages/AddEditTask";
 import TasksByCategory from "./pages/TasksByCategory";
 import {Profile} from "./pages/Profile"
+import TaskProgress from "./pages/TaskProgress"
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/Profile" element={<Profile />} />
           <Route path="/category" element={<TasksByCategory />}/>
          <Route path="/add-task" element={<AddEditTask/>}/>
+         <Route path="/TaskProgress" element={<TaskProgress />} />
         </Route>
 
       </Routes>
