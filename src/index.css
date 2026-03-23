@@ -14,7 +14,9 @@
     transform: translateY(0);
   }
 }
-
+html.dark {
+  background-color: #020617; /* Matches Tailwind's slate-950 */
+}
 .plant-icon {
   display: inline-block;
   animation: plantFloat 3s ease-in-out infinite;

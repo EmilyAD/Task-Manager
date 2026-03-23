@@ -1,9 +1,19 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AppContext = createContext();
 
 export function AppProvider({ children }) {
-
+  const [theme, setTheme] = useState("light");
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -91,6 +101,25 @@ export function AppProvider({ children }) {
     ]);
   };
 
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('app_user');
+    return savedUser ? JSON.parse(savedUser) : {
+      name: 'New User',
+      email: 'user@example.com',
+      profilePicture: null,
+      joinDate: new Date().toISOString(),
+      bio: ''
+    };
+  });
+
+  const updateProfile = (newData) => {
+    setUser(prev => {
+      const updated = { ...prev, ...newData };
+      localStorage.setItem('app_user', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -99,7 +128,11 @@ export function AppProvider({ children }) {
         searchQuery,
         setSearchQuery,
         completeTask,
-        addTask
+        addTask,
+        user,
+        updateProfile,
+        theme,        
+        toggleTheme
       }}
     >
       {children}
