@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, ListTodo, Folder, Plus, Flower2, User } from "lucide-react";
+import { Home,TrendingUp,LayoutDashboard, ListTodo, Folder, Plus, Flower2, User } from "lucide-react";
 
 export default function Sidebar() {
   const location = useLocation();
@@ -39,8 +39,8 @@ export default function Sidebar() {
         </Link>
 
         <Link to="/TaskProgress" className={linkClass("/TaskProgress")}>
-          <User size={18} />
-          TaskProgress
+          <TrendingUp size={18} />
+          Progress
         </Link>
 
         <Link to="/profile" className={linkClass("/profile")}>

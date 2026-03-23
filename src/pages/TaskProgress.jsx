@@ -1,12 +1,55 @@
 import { useApp } from '../context/AppContext';
 import { useMemo } from 'react';
-import { TrendingUp, Award, Target, Zap } from 'lucide-react';
+import { Home, CheckSquare, User,TrendingUp, Award, Target, Zap } from 'lucide-react';
 import { StatCard } from '../components/StatCard';
 
-export function TaskProgress() {
+export default function TaskProgress() {
   const { tasks } = useApp();
+  const stats = useMemo(() => {
+    // 1. Safety check for empty tasks
+    if (!tasks || tasks.length === 0) {
+      return {
+        completed: 0,
+        active: 0,
+        total: 0,
+        categoryStats: {},
+        avgGrowth: 0,
+        completionRate: 0,
+      };
+    }
 
-  
+    const completed = tasks.filter(t => t.completed);
+    const active = tasks.filter(t => !t.completed);
+    
+    // 2. Fixed Category logic (added the {} at the end)
+    const categoryStats = tasks.reduce((acc, task) => {
+      const cat = task.category || 'General';
+      if (!acc[cat]) {
+        acc[cat] = { total: 0, completed: 0 };
+      }
+      acc[cat].total++;
+      if (task.completed) {
+        acc[cat].completed++;
+      }
+      return acc;
+    }, {});
+
+    // 3. Growth calculation
+    const avgGrowth = Math.round(
+      tasks.reduce((sum, t) => sum + (t.growthStage || 0), 0) / tasks.length
+    );
+
+    return {
+      completed: completed.length,
+      active: active.length,
+      total: tasks.length,
+      categoryStats,
+      avgGrowth,
+      completionRate: Math.round((completed.length / tasks.length) * 100),
+    };
+  }, [tasks]); 
+
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
