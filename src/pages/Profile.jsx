@@ -72,15 +72,14 @@ export function Profile() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
-          {/* LEFT CONTENT AREA (8 Columns) */}
+          
           <div className="lg:col-span-8 space-y-6">
             
-            {/* MAIN PROFILE CARD */}
+            
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg">
               
-              {/* UPDATED DYNAMIC BANNER */}
-              <div className="h-44 relative overflow-hidden flex flex-col items-center justify-center text-center transition-all duration-500">
-                {/* 1. DYNAMIC BACKGROUND: Uses picture if exists, otherwise Bloomly Gradient */}
+              
+            <div className="min-h-[12rem] py-8 relative overflow-hidden flex flex-col items-center justify-center text-center transition-all duration-500">
                 {userData.profilePicture ? (
                   <div 
                     className="absolute inset-0 w-full h-full scale-150 blur-2xl opacity-70 transition-all duration-500"
@@ -94,7 +93,7 @@ export function Profile() {
                   <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-900" />
                 )}
 
-                {/* 2. FLOATING FLOWERS (Always on top) */}
+                {/* 2. FLOATING FLOWERS */}
                 <div className="absolute top-4 left-6 text-2xl opacity-40 select-none">🌸</div>
                 <div className="absolute top-4 right-6 text-2xl opacity-40 select-none">🌻</div>
                 <div className="absolute bottom-4 left-10 text-2xl opacity-30 select-none">🌿</div>
@@ -107,8 +106,6 @@ export function Profile() {
                 <p className="text-xs text-green-50 opacity-90 relative z-10 max-w-xs px-4 drop-shadow-sm">
                   Join thousands of users who transformed their productivity with Bloomly.
                 </p>
-                
-                {/* EDIT TOGGLE BUTTON */}
                 <button
                   onClick={() => setIsEditing(!isEditing)}
                   className="absolute top-4 right-4 z-20 p-2.5 bg-white/20 dark:bg-gray-800/20 backdrop-blur-md rounded-full shadow-lg hover:scale-110 transition-all border border-white/30"
@@ -119,19 +116,17 @@ export function Profile() {
 
               <div className="p-8">
                 <div className="flex items-center gap-6 relative">
-                  
-                  {/* INSTAGRAM-STYLE PROFILE PICTURE CIRCLE */}
                   <div 
                     onClick={() => fileInputRef.current.click()}
                     className="relative z-30 -mt-20 cursor-pointer shadow-2xl rounded-full flex-shrink-0 group"
                     style={{ width: '9rem', height: '9rem' }} 
                   >
-                    {/* FIXED: White in light mode, Black in dark mode */}
-                    <div className="w-full h-full rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-white dark:bg-black flex items-center justify-center transition-colors duration-300">
+                    
+                    <div className="w-full h-full rounded-full border-2 border-white dark:border-white overflow-hidden bg-white dark:bg-gray-800 flex items-center justify-center transition-colors duration-300">
                       {userData.profilePicture ? (
                         <img src={userData.profilePicture} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
-                        /* FIXED: Big Icon for Insta look */
+                        
                         <span className="text-8xl select-none mb-2">👤</span>
                       )}
                       
