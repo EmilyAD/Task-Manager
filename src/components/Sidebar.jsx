@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home,TrendingUp,LayoutDashboard, ListTodo, Folder, Plus, Flower2, User } from "lucide-react";
+import { X, TrendingUp, ListTodo, Folder, Plus, User } from "lucide-react";
 
-export default function Sidebar() {
+export default function Sidebar({ onClose }) {
   const location = useLocation();
 
   const linkClass = (path) =>
@@ -12,7 +12,15 @@ export default function Sidebar() {
     }`;
 
   return (
-<div className="h-screen w-64 bg-white text-gray-900 flex flex-col p-6 border-r border-gray-200">
+<div className="h-screen w-64 bg-white dark:bg-slate-900 text-gray-900 dark:text-white flex flex-col p-6 border-r border-gray-200 dark:border-slate-800 relative">
+      {/* CLOSE BUTTON */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 p-1 rounded-md hover:bg-gray-200 transition"
+      >
+        <X size={18} />
+      </button>
+
       {/* Logo */}
       <h2 className="text-2xl font-bold mb-10 flex items-center gap-2">
         🌱 Bloomly
@@ -20,8 +28,6 @@ export default function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex flex-col gap-2">
-
-       
 
         <Link to="/tasks" className={linkClass("/tasks")}>
           <ListTodo size={18} />
@@ -47,10 +53,10 @@ export default function Sidebar() {
           <User size={18} />
           Profile
         </Link>
-        
+
       </nav>
 
-      {/* Logout button */}
+      {/* Logout */}
       <div className="mt-auto pt-10">
         <Link
           to="/login"

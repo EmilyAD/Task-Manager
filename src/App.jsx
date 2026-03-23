@@ -9,8 +9,8 @@ import ResetPassword from "./pages/ResetPassword";
 import Register from "./pages/Register";
 import AddEditTask from "./pages/AddEditTask";
 import TasksByCategory from "./pages/TasksByCategory";
-import {Profile} from "./pages/Profile"
-import TaskProgress from "./pages/TaskProgress"
+import { Profile } from "./pages/Profile";
+import TaskProgress from "./pages/TaskProgress";
 
 function App() {
   return (
@@ -23,16 +23,14 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/register" element={<Register />} />
-        
 
-
-        {/* With sidebar toggle */}
+        {/* Protected / Dashboard (WITH sidebar) */}
         <Route element={<DashboardLayout />}>
           <Route path="/tasks" element={<AllTasks />} />
-          <Route path="/Profile" element={<Profile />} />
-          <Route path="/category" element={<TasksByCategory />}/>
-         <Route path="/add-task" element={<AddEditTask />}/>
-         <Route path="/TaskProgress" element={<TaskProgress />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/category" element={<TasksByCategory />} />
+          <Route path="/add-task" element={<AddEditTask />} />
+          <Route path="/TaskProgress" element={<TaskProgress />} />
         </Route>
 
       </Routes>
