@@ -30,7 +30,7 @@ function App() {
           <Route path="/tasks" element={<AllTasks />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/category" element={<TasksByCategory />}/>
-         <Route path="/add-task" element={<AddEditTask/>}/>
+         <Route path="/add-task" element={<AddEditTask />}/>
         </Route>
 
       </Routes>
