@@ -21,8 +21,9 @@ const categories = ["Work", "Personal", "Learning", "Health", "Finance", "Other"
 export default function AddEditTask() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { tasks, addTask, updateTask } = useApp();
+  const { tasks, addTask, updateTask, darkMode } = useApp();
 
+  // Check if editing an existing task
   const existingTask = location.state?.task || null;
   const isEditing = !!existingTask;
 
@@ -36,16 +37,10 @@ export default function AddEditTask() {
 
   const [errors, setErrors] = useState({});
 
-  // Prefill form when editing
+  // Pre-fill the form if editing
   useEffect(() => {
     if (existingTask) {
-      setFormData({
-        title: existingTask.title,
-        description: existingTask.description,
-        category: existingTask.category,
-        plantType: existingTask.plantType,
-        dueDate: existingTask.dueDate,
-      });
+      setFormData({ ...existingTask });
     }
   }, [existingTask]);
 
@@ -63,7 +58,8 @@ export default function AddEditTask() {
     if (!validate()) return;
 
     if (isEditing && existingTask) {
-      updateTask(existingTask.id, formData);
+      
+      updateTask(existingTask, formData);
     } else {
       addTask(formData);
     }
@@ -98,9 +94,7 @@ export default function AddEditTask() {
       >
         {/* TITLE */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
-            Task Title *
-          </label>
+          <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">Task Title *</label>
           <input
             type="text"
             value={formData.title}
@@ -115,9 +109,7 @@ export default function AddEditTask() {
 
         {/* DESCRIPTION */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
-            Description *
-          </label>
+          <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">Description *</label>
           <textarea
             rows={4}
             value={formData.description}
@@ -146,7 +138,7 @@ export default function AddEditTask() {
           </select>
         </div>
 
-        {/* DATE */}
+        {/* DUE DATE */}
         <div>
           <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">Due Date *</label>
           <input
@@ -160,7 +152,7 @@ export default function AddEditTask() {
           {errors.dueDate && <p className="text-sm text-red-500 mt-1">{errors.dueDate}</p>}
         </div>
 
-        {/* PLANTS */}
+        {/* PLANT TYPES */}
         <div>
           <label className="block text-sm font-medium mb-3 text-gray-900 dark:text-white">Choose Your Plant</label>
           <div className="grid grid-cols-5 gap-4">

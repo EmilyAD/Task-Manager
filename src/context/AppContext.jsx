@@ -4,9 +4,8 @@ const AppContext = createContext();
 
 export function AppProvider({ children }) {
   const [theme, setTheme] = useState("light");
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  };
+  const toggleTheme = () => setTheme(prev => (prev === "light" ? "dark" : "light"));
+
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -14,6 +13,7 @@ export function AppProvider({ children }) {
       document.documentElement.classList.remove("dark");
     }
   }, [theme]);
+
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -47,42 +47,13 @@ export function AppProvider({ children }) {
       completed: false,
       plantType: "🌻",
       completedAt: null
-    },
-    {
-      id: 4,
-      title: "Morning meditation",
-      description: "Daily 15-minute meditation session",
-      category: "Personal",
-      dueDate: "Mar 15",
-      growthStage: 100,
-      completed: true,
-      plantType: "🌸",
-      completedAt: new Date()
-    },
-    {
-      id: 5,
-      title: "Read 30 pages",
-      description: 'Continue reading "Atomic Habits"',
-      category: "Learning",
-      dueDate: "Mar 14",
-      growthStage: 100,
-      completed: true,
-      plantType: "🌺",
-      completedAt: new Date()
     }
   ]);
-
-  const [searchQuery, setSearchQuery] = useState("");
 
   const completeTask = (id) => {
     setTasks(tasks.map(task =>
       task.id === id
-        ? {
-            ...task,
-            completed: true,
-            growthStage: 100,
-            completedAt: new Date()
-          }
+        ? { ...task, completed: true, growthStage: 100, completedAt: new Date() }
         : task
     ));
   };
@@ -95,21 +66,22 @@ export function AppProvider({ children }) {
         id: Date.now(),
         growthStage: 0,
         completed: false,
-        plantType: newTask.plantType,
         completedAt: null
       }
     ]);
   };
 
+  const updateTask = (oldTask, newData) => {
+  setTasks(tasks.map(task =>
+    task === oldTask ? { ...task, ...newData } : task
+  ));
+};
+
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('app_user');
-    return savedUser ? JSON.parse(savedUser) : {
-      name: 'New User',
-      email: 'user@example.com',
-      profilePicture: null,
-      joinDate: new Date().toISOString(),
-      bio: ''
-    };
+    return savedUser
+      ? JSON.parse(savedUser)
+      : { name: 'New User', email: 'user@example.com', profilePicture: null, joinDate: new Date().toISOString(), bio: '' };
   });
 
   const updateProfile = (newData) => {
@@ -125,14 +97,13 @@ export function AppProvider({ children }) {
       value={{
         tasks,
         setTasks,
-        searchQuery,
-        setSearchQuery,
         completeTask,
         addTask,
+        updateTask, // ✅ make sure this is exposed
+        theme,
+        toggleTheme,
         user,
-        updateProfile,
-        theme,        
-        toggleTheme
+        updateProfile
       }}
     >
       {children}
