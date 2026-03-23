@@ -34,7 +34,7 @@ export default function ForgotPassword() {
       px-6 py-10 md:px-12 md:py-12 
       flex flex-col items-center 
       transition-colors duration-300">
-        <div className="w-24 h-24 rounded-full bg-[#73986a] flex items-center justify-center text-[2.6rem] mb-6">
+        <div className="w-24 h-24 rounded-full bg-[#43A047] flex items-center justify-center text-[2.6rem] mb-6">
           🌱
         </div>
 
@@ -74,7 +74,7 @@ text-[#6d7187] dark:text-[#b9c2b0]">
              bg-transparent 
              text-[#6d7187] dark:text-white 
              placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a] 
-             py-3 outline-none focus:border-[#73986a] 
+             py-3 outline-none focus:border-[#43A047] 
              transition-colors duration-300"
           />
 
@@ -83,7 +83,7 @@ text-[#6d7187] dark:text-[#b9c2b0]">
           <button
             type="submit"
              className="mt-10 w-full 
-              bg-[#73986a] dark:bg-[#8fbf7a] 
+              bg-[#43A047] dark:bg-[#8fbf7a] 
               text-white dark:text-[#0f1c0f] 
               py-4 rounded-xl font-bold 
               hover:opacity-90 transition"
@@ -94,7 +94,7 @@ text-[#6d7187] dark:text-[#b9c2b0]">
 
         <p className="mt-10 text-gray-500 dark:text-[#b9c2b0] text-center">
           Remember your password?{" "}
-          <Link to="/login" className="text-[#73986a] font-bold">
+          <Link to="/login" className="text-[#43A047] font-bold">
             Login
           </Link>
         </p>
@@ -103,7 +103,7 @@ text-[#6d7187] dark:text-[#b9c2b0]">
           <Link
             to="/"
           
-            className="text-[#73986a] dark:text-[#8fbf7a] 
+            className="text-[#43A047] dark:text-[#8fbf7a] 
             font-bold hover:underline"
 >
           
