@@ -21,13 +21,14 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/add-task" element={<AddEditTask/>}/>
-        <Route path="/category" element={<TasksByCategory/>}/>
+        
 
 
         {/* With sidebar toggle */}
         <Route element={<DashboardLayout />}>
           <Route path="/tasks" element={<AllTasks />} />
+          <Route path="/add-task" element={<AddEditTask/>}/>
+          <Route path="/category" element={<TasksByCategory/>}/>
         </Route>
 
       </Routes>

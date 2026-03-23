@@ -5,6 +5,7 @@ import {
   validatePassword,
   validateConfirmPassword,
 } from "../utils/validators";
+import { useApp } from "../context/AppContext"; 
 
 const plantOptions = [
   {
@@ -29,6 +30,7 @@ const plantOptions = [
 
 export default function Register() {
   const navigate = useNavigate();
+  const { updateProfile } = useApp();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -83,14 +85,19 @@ export default function Register() {
     return Object.keys(newErrors).length === 0;
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(e) {
+  e.preventDefault();
 
-    if (!validateForm()) return;
+  if (!validateForm()) return;
 
-    alert(`Account created with ${formData.starterPlant} as your starter plant.`);
-    navigate("/login");
-  }
+  updateProfile({
+    name: formData.name,
+    email: formData.email,
+    joinDate: new Date().toISOString(),
+  });
+
+  navigate("/Profile"); 
+}
 
   return (
     <section className="min-h-screen bg-[#f4f4f1] flex items-center justify-center px-4 py-8">
