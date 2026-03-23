@@ -78,8 +78,9 @@ export function Profile() {
             {/* MAIN PROFILE CARD */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg">
               
-              {/* BANNER FIX*/}
-              <div className="h-36 relative overflow-hidden bg-gray-200 dark:bg-gray-700">
+              {/* UPDATED DYNAMIC BANNER */}
+              <div className="h-44 relative overflow-hidden flex flex-col items-center justify-center text-center transition-all duration-500">
+                {/* 1. DYNAMIC BACKGROUND: Uses picture if exists, otherwise Bloomly Gradient */}
                 {userData.profilePicture ? (
                   <div 
                     className="absolute inset-0 w-full h-full scale-150 blur-2xl opacity-70 transition-all duration-500"
@@ -90,34 +91,51 @@ export function Profile() {
                     }}
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-purple-500 to-amber-500" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-900" />
                 )}
+
+                {/* 2. FLOATING FLOWERS (Always on top) */}
+                <div className="absolute top-4 left-6 text-2xl opacity-40 select-none">🌸</div>
+                <div className="absolute top-4 right-6 text-2xl opacity-40 select-none">🌻</div>
+                <div className="absolute bottom-4 left-10 text-2xl opacity-30 select-none">🌿</div>
+                <div className="absolute bottom-4 right-10 text-2xl opacity-30 select-none">🌷</div>
+
+                {/* 3. BANNER TEXT */}
+                <h2 className="text-3xl font-black text-white tracking-tight relative z-10 drop-shadow-md">
+                  Ready to Start Growing?
+                </h2>
+                <p className="text-xs text-green-50 opacity-90 relative z-10 max-w-xs px-4 drop-shadow-sm">
+                  Join thousands of users who transformed their productivity with Bloomly.
+                </p>
                 
+                {/* EDIT TOGGLE BUTTON */}
                 <button
                   onClick={() => setIsEditing(!isEditing)}
-                  className="absolute top-4 right-4 z-20 p-2.5 bg-white/80 dark:bg-gray-800/80 rounded-full shadow-lg hover:scale-110 transition-all"
+                  className="absolute top-4 right-4 z-20 p-2.5 bg-white/20 dark:bg-gray-800/20 backdrop-blur-md rounded-full shadow-lg hover:scale-110 transition-all border border-white/30"
                 >
-                  <Edit2 className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                  <Edit2 className="w-4 h-4 text-white" />
                 </button>
               </div>
 
               <div className="p-8">
                 <div className="flex items-center gap-6 relative">
                   
-                  {/* CLICK BAR */}
+                  {/* INSTAGRAM-STYLE PROFILE PICTURE CIRCLE */}
                   <div 
                     onClick={() => fileInputRef.current.click()}
-                    className="relative z-30 -mt-20 cursor-pointer shadow-2xl rounded-full flex-shrink-0"
-                    style={{ width: '8rem', height: '8rem' }} 
+                    className="relative z-30 -mt-20 cursor-pointer shadow-2xl rounded-full flex-shrink-0 group"
+                    style={{ width: '9rem', height: '9rem' }} 
                   >
-                    <div className="w-full h-full rounded-full border-4 border-white dark:border-gray-800 overflow-hidden group bg-emerald-500 flex items-center justify-center text-6xl">
+                    {/* FIXED: White in light mode, Black in dark mode */}
+                    <div className="w-full h-full rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-white dark:bg-black flex items-center justify-center transition-colors duration-300">
                       {userData.profilePicture ? (
                         <img src={userData.profilePicture} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
-                        '👤'
+                        /* FIXED: Big Icon for Insta look */
+                        <span className="text-8xl select-none mb-2">👤</span>
                       )}
                       
-                      <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
+                      <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
                         <Camera className="w-8 h-8 text-white mb-1" />
                         <span className="text-[10px] text-white font-bold uppercase tracking-wider">Change</span>
                       </div>
@@ -146,7 +164,7 @@ export function Profile() {
                         <Mail className="w-4 h-4" />
                         {isEditing ? (
                           <input 
-                            className="bg-gray-100 dark:bg-gray-700 px-1 rounded border" 
+                            className="bg-gray-100 dark:bg-gray-700 px-1 rounded border dark:text-white" 
                             value={userData.email}
                             onChange={(e) => setUserData({...userData, email: e.target.value})}
                           />
@@ -170,7 +188,7 @@ export function Profile() {
                       value={userData.bio}
                       onChange={(e) => setUserData({ ...userData, bio: e.target.value })}
                       rows={3}
-                      className="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm outline-none focus:ring-2 focus:ring-emerald-500 dark:text-white"
                     />
                   ) : (
                     <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
@@ -179,6 +197,7 @@ export function Profile() {
                   )}
                 </div>
 
+                {/* SAVE/CANCEL BUTTONS */}
                 {isEditing && (
                   <div className="mt-6 flex gap-3">
                     <button onClick={handleSave} className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg shadow-lg transition-all font-medium">
