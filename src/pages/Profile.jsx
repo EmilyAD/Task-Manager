@@ -79,7 +79,7 @@ export function Profile() {
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg">
               
               
-            <div className="min-h-[12rem] py-8 relative overflow-hidden flex flex-col items-center justify-center text-center transition-all duration-500">
+            <div className="min-h-[160px] md:h-44 py-6 md:py-0 relative overflow-hidden flex flex-col items-center justify-center text-center transition-all duration-500">
                 {userData.profilePicture ? (
                   <div 
                     className="absolute inset-0 w-full h-full scale-150 blur-2xl opacity-70 transition-all duration-500"
@@ -94,17 +94,17 @@ export function Profile() {
                 )}
 
                 {/* 2. FLOATING FLOWERS */}
-                <div className="absolute top-4 left-6 text-2xl opacity-40 select-none">🌸</div>
-                <div className="absolute top-4 right-6 text-2xl opacity-40 select-none">🌻</div>
-                <div className="absolute bottom-4 left-10 text-2xl opacity-30 select-none">🌿</div>
-                <div className="absolute bottom-4 right-10 text-2xl opacity-30 select-none">🌷</div>
 
+                <div className="absolute top-2 left-2 md:top-4 md:left-6 text-lg md:text-2xl opacity-40 select-none">🌸</div>
+                <div className="absolute top-2 right-2 md:top-4 md:right-6 text-lg md:text-2xl opacity-40 select-none">🌻</div>
+                <div className="absolute bottom-2 left-6 md:bottom-4 md:left-10 text-lg md:text-2xl opacity-30 select-none">🌿</div>
+                <div className="absolute bottom-2 right-6 md:bottom-4 md:right-10 text-lg md:text-2xl opacity-30 select-none">🌷</div>
                 {/* 3. BANNER TEXT */}
-                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight relative z-10 drop-shadow-md">
-                  Ready to Start Growing?
+                <h2 className="text-xl md:text-3xl font-black text-white tracking-tight relative z-10 drop-shadow-md px-4 leading-tight">
+                   Ready to Start Growing?
                 </h2>
-                <p className="text-xs text-green-50 opacity-90 relative z-10 max-w-xs px-4 drop-shadow-sm">
-                  Join thousands of users who transformed their productivity with Bloomly.
+                <p className="text-[10px] md:text-xs text-green-50 opacity-90 relative z-10 max-w-[200px] md:max-w-xs mt-1 px-2 drop-shadow-sm leading-relaxed">
+                 Join thousands of users who transformed their productivity with Bloomly.
                 </p>
                 <button
                   onClick={() => setIsEditing(!isEditing)}
@@ -114,19 +114,21 @@ export function Profile() {
                 </button>
               </div>
 
+              
               <div className="p-8">
-                <div className="flex items-center gap-6 relative">
+                {/* This wrapper handles the "Stack on Mobile, Row on Desktop" logic */}
+                <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 relative">
+                  
+                  {/* 1. PROFILE PICTURE CIRCLE (Centered on mobile) */}
                   <div 
                     onClick={() => fileInputRef.current.click()}
-                    className="relative z-30 -mt-20 cursor-pointer shadow-2xl rounded-full flex-shrink-0 group"
+                    className="relative z-30 -mt-20 md:-mt-24 cursor-pointer shadow-2xl rounded-full flex-shrink-0 group"
                     style={{ width: '9rem', height: '9rem' }} 
                   >
-                    
-                    <div className="w-full h-full rounded-full border-2 border-white dark:border-white overflow-hidden bg-white dark:bg-gray-800 flex items-center justify-center transition-colors duration-300">
+                    <div className="w-full h-full rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-white dark:bg-gray-800 flex items-center justify-center transition-colors duration-300">
                       {userData.profilePicture ? (
                         <img src={userData.profilePicture} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
-                        
                         <span className="text-8xl select-none mb-2">👤</span>
                       )}
                       
@@ -139,44 +141,49 @@ export function Profile() {
 
                   <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
 
-                  {/* NAME AREA */}
-                  <div className="flex-1 mt-6">
+                  {/* 2. NAME & INFO AREA (Centered text on mobile) */}
+                  <div className="flex-1 mt-2 md:mt-8 text-center md:text-left w-full overflow-hidden">
                     {isEditing ? (
                       <input
                         type="text"
                         value={userData.name}
                         onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-                        className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-lg border border-emerald-500/30 w-full outline-none"
+                        className="text-2xl md:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-lg border border-emerald-500/30 w-full outline-none"
                       />
                     ) : (
-                      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight">
+                      <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight break-words">
                         {userData.name}
                       </h2>
                     )}
                     
-                    <div className="flex flex-wrap items-center gap-4 mt-2 text-gray-600 dark:text-gray-400">
-                      <div className="flex items-center gap-1.5 text-sm">
-                        <Mail className="w-4 h-4" />
+                    {/* Info Rows (Mail and Calendar) */}
+                    <div className="flex flex-col items-center md:items-start gap-2 mt-3 text-gray-600 dark:text-gray-400">
+                      <div className="flex items-center gap-1.5 text-sm w-full justify-center md:justify-start">
+                        <Mail className="w-4 h-4 flex-shrink-0" />
                         {isEditing ? (
                           <input 
-                            className="bg-gray-100 dark:bg-gray-700 px-1 rounded border dark:text-white" 
+                            className="bg-gray-100 dark:bg-gray-700 px-1 rounded border dark:text-white w-full max-w-[200px]" 
                             value={userData.email}
                             onChange={(e) => setUserData({...userData, email: e.target.value})}
                           />
                         ) : (
-                          <span>{userData.email}</span>
+                          <span className="truncate max-w-[220px] md:max-w-none px-2 md:px-0">
+                            {userData.email}
+                          </span>
                         )}
                       </div>
-                      <div className="flex items-center gap-1.5 text-sm">
-                        <Calendar className="w-4 h-4" />
-                        <span>Joined {new Date(userData.joinDate || '2026-03-01').toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
+                      <div className="flex items-center gap-1.5 text-sm w-full justify-center md:justify-start">
+                        <Calendar className="w-4 h-4 flex-shrink-0" />
+                        <span className="whitespace-nowrap">
+                          Joined {new Date(userData.joinDate || '2026-03-01').toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* BIO SECTION */}
-                <div className="mt-8">
+                {/* 3. BIO SECTION */}
+                <div className="mt-8 text-center md:text-left">
                   <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-2 uppercase tracking-wider">Bio</h4>
                   {isEditing ? (
                     <textarea
@@ -186,11 +193,12 @@ export function Profile() {
                       className="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm outline-none focus:ring-2 focus:ring-emerald-500 dark:text-white"
                     />
                   ) : (
-                    <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                    <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed px-4 md:px-0 max-w-md mx-auto md:mx-0">
                       {userData.bio || "No bio set yet. Tell us about your journey! 🌱"}
                     </p>
                   )}
                 </div>
+              
 
                 {/* SAVE/CANCEL BUTTONS */}
                 {isEditing && (
