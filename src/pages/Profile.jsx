@@ -100,7 +100,7 @@ export function Profile() {
                 <div className="absolute bottom-4 right-10 text-2xl opacity-30 select-none">🌷</div>
 
                 {/* 3. BANNER TEXT */}
-                <h2 className="text-3xl font-black text-white tracking-tight relative z-10 drop-shadow-md">
+                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight relative z-10 drop-shadow-md">
                   Ready to Start Growing?
                 </h2>
                 <p className="text-xs text-green-50 opacity-90 relative z-10 max-w-xs px-4 drop-shadow-sm">
