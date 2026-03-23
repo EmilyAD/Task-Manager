@@ -48,7 +48,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 <section className="min-h-screen bg-[#f4f4f1] dark:bg-[#0f1c0f] flex items-center justify-center px-4 py-8 transition-colors duration-300">
       <div className="w-full max-w-[760px] bg-white dark:bg-[#1b2c1b] rounded-[20px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] px-6 py-10 md:px-12 md:py-12 flex flex-col items-center transition-colors duration-300">
         {/* Logo */}
-        <div className="w-24 h-24 rounded-full bg-[#73986a] flex items-center justify-center text-[2.6rem] mb-6">
+        <div className="w-24 h-24 rounded-full bg-[#43A047] flex items-center justify-center text-[2.6rem] mb-6">
           🌱
         </div>
 
@@ -87,7 +87,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
             placeholder="your@email.com"
             value={formData.email}
             onChange={handleChange}
-            className="border-0 border-b border-gray-300 dark:border-gray-600 py-3 outline-none focus:border-[#73986a] bg-transparent text-[#6d7187] dark:text-white placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a]" 
+            className="border-0 border-b border-gray-300 dark:border-gray-600 py-3 outline-none focus:border-[#43A047] bg-transparent text-[#6d7187] dark:text-white placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a]" 
           />
 
           {errors.email && (
@@ -109,7 +109,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
              bg-transparent dark:bg-transparent
              text-[#6d7187] dark:text-white
              placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a]
-             py-3 outline-none focus:border-[#73986a]"
+             py-3 outline-none focus:border-[#43A047]"
           />
 
           {errors.password && (
@@ -117,7 +117,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
           )}
 
           <p className="mt-4 text-right">
-         <Link to="/forgot-password" className="text-[#73986a] font-semibold hover:underline">
+         <Link to="/forgot-password" className="text-[#43A047] font-semibold hover:underline">
           Forgot Password?
          </Link>
         </p>
@@ -125,7 +125,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
           {/* Button */}
           <button
             type="submit"
-            className="mt-10 bg-[#73986a] text-white py-4 rounded-xl font-bold hover:opacity-90 transition"
+            className="mt-10 bg-[#43A047] text-white py-4 rounded-xl font-bold hover:opacity-90 transition"
           >
             Login
           </button>
@@ -136,14 +136,14 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
           Don&apos;t have an account?{" "}
           <Link
             to="/register"
-            className="text-[#73986a] font-bold"
+            className="text-[#43A047] font-bold"
           >
             Sign up
           </Link>
         </p>
 
         <p className="mt-3 text-center">
-          <Link to="/"  className="text-[#73986a] dark:text-[#8fbf7a] 
+          <Link to="/"  className="text-[#43A047] dark:text-[#8fbf7a] 
             font-bold hover:underline">
             Back to Home
           </Link>
