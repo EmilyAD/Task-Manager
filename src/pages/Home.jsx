@@ -18,7 +18,7 @@ export default function Home() {
             {/* Title */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6">
               Welcome to{" "}
-              <span className="text-emerald-600">
+              <span className="text-green-600">
   Bloomly
 </span>
             </h1>
@@ -32,7 +32,7 @@ export default function Home() {
 
               <Link
                 to="/register"
-                className="group px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-semibold text-lg shadow-lg shadow-emerald-500/30 transition-all hover:shadow-xl hover:shadow-emerald-500/40 hover:scale-105 flex items-center gap-2"
+                className="group px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-semibold text-lg shadow-lg shadow-emerald-500/30 transition-all hover:shadow-xl hover:shadow-emerald-500/40 hover:scale-105 flex items-center gap-2"
               >
                 Get Started Free
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -165,7 +165,7 @@ export default function Home() {
 
         <Link
           to="/register"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold shadow-lg transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-emerald-700 text-white rounded-lg font-semibold shadow-lg transition-all"
         >
           Start Growing
         </Link>
