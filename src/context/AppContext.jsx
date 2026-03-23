@@ -99,7 +99,7 @@ export function AppProvider({ children }) {
         setTasks,
         completeTask,
         addTask,
-        updateTask, // ✅ make sure this is exposed
+        updateTask, 
         theme,
         toggleTheme,
         user,

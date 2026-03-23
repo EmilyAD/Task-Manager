@@ -37,7 +37,7 @@ export default function AddEditTask() {
 
   const [errors, setErrors] = useState({});
 
-  // Pre-fill the form if editing
+  // Prefill the form if the user is editing a task
   useEffect(() => {
     if (existingTask) {
       setFormData({ ...existingTask });
