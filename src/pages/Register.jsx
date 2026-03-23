@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import {
+  
   validateEmail,
   validatePassword,
   validateConfirmPassword,
@@ -29,6 +31,8 @@ const plantOptions = [
 ];
 
 export default function Register() {
+  const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const { updateProfile } = useApp();
 
@@ -138,8 +142,7 @@ text-[#6d7187] dark:text-[#b9c2b0]">
             placeholder="Your name"
             value={formData.name}
             onChange={handleChange}
-            className="border-0 border-b border-gray-300 py-3 outline-none focus:border-[#73986a] bg-transparent"
-          />
+            className="w-full border-0 border-b border-gray-300 dark:border-gray-600 bg-transparent text-[#23311f] dark:text-white placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a] py-3 outline-none focus:border-[#73986a] transition-colors duration-300" />
           {errors.name && (
             <p className="text-red-500 text-sm mt-1">{errors.name}</p>
           )}
