@@ -38,6 +38,11 @@ export default function Sidebar() {
           Add Task
         </Link>
 
+        <Link to="/TaskProgress" className={linkClass("/TaskProgress")}>
+          <User size={18} />
+          TaskProgress
+        </Link>
+
         <Link to="/profile" className={linkClass("/profile")}>
           <User size={18} />
           Profile
