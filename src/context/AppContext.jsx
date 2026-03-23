@@ -95,7 +95,7 @@ export function AppProvider({ children }) {
         id: Date.now(),
         growthStage: 0,
         completed: false,
-        plantType: "🌱",
+        plantType: newTask.plantType,
         completedAt: null
       }
     ]);
