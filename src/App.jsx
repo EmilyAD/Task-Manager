@@ -9,7 +9,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Register from "./pages/Register";
 import AddEditTask from "./pages/AddEditTask";
 import TasksByCategory from "./pages/TasksByCategory";
-
+import {Profile} from "./pages/Profile"
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +28,7 @@ function App() {
         {/* With sidebar toggle */}
         <Route element={<DashboardLayout />}>
           <Route path="/tasks" element={<AllTasks />} />
+          <Route path="/Profile" element={<Profile />} />
         </Route>
 
       </Routes>
