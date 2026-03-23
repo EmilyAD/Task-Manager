@@ -65,7 +65,7 @@ export default function ResetPassword() {
         </div>
 
         <h1 className="text-center text-[2rem] md:text-[2.8rem] 
-          font-extrabold text-[#23311f] dark:text-white">
+    font-extrabold text-[#23311f] dark:text-white">
           Reset Your Password
         </h1>
 
