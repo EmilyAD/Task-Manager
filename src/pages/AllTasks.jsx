@@ -604,6 +604,9 @@ export default function AllTasks({ preview = false }) {
   return (
     <>
       <style>{`
+      ::-webkit-scrollbar {
+  display: none;
+}
         @keyframes sway {
           0%   { transform: rotate(-2.5deg); }
           50%  { transform: rotate(2.5deg); }
@@ -767,13 +770,11 @@ export default function AllTasks({ preview = false }) {
 
               {/* ── PLANTS ROW ── */}
               <div
-  className="absolute bottom-0 left-0 right-0 grid px-2 sm:px-4 md:px-6"
+ className="absolute bottom-0 left-0 right-0 flex items-end px-3 overflow-x-auto"
   style={{
     paddingBottom: 20,
-    gridTemplateColumns: "repeat(auto-fill, minmax(55px, 1fr))",
-    alignItems: "end",
-    rowGap: "2px",
-    columnGap: "2px",
+    gap: "6px",
+    scrollbarWidth: "none", // Firefox
   }}
 >
                 {allGardenTasks.map((task, i) => {
@@ -787,11 +788,11 @@ export default function AllTasks({ preview = false }) {
                   return (
 <div
   key={task.id}
-  className="flex flex-col items-center group"
+  className="flex flex-col items-center group shrink-0"
   style={{
-    width: "clamp(45px, 12vw, 70px)",
+    width: "clamp(50px, 12vw, 70px)",
     position: "relative",
-  }}                     
+  }}                   
                       title={`${task.title} — ${Math.round(progress * 100)}%`}
                     >
                       {/* The growing flower — same component at all stages */}
