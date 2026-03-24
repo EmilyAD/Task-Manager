@@ -25,9 +25,7 @@ export default function DashboardLayout() {
         />
       )}
 
-      {/* FIXED MENU ICON 
-          We use z-[9997] so it stays behind the sidebar/overlay when they are open.
-      */}
+    
       {!open && (
         <div className="fixed top-6 left-6 z-[9997] md:top-8 md:left-8">
           <button
@@ -42,9 +40,6 @@ export default function DashboardLayout() {
 
       {/* Main Content Area */}
       <div className="p-6 pt-20 md:pt-24 max-w-7xl mx-auto">
-        {/* Note: pt-20 (padding-top) ensures your "All Tasks" title 
-            isn't hidden behind the fixed menu button.
-        */}
         <Outlet />
       </div>
 

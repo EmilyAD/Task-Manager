@@ -643,165 +643,143 @@ export default function AllTasks({ preview = false }) {
               </div>
             </div>
 
-           
+          {/* GARDEN SCENE */}
+<div
+  className="
+    relative rounded-2xl overflow-hidden border border-emerald-100
+    h-[220px] sm:h-[260px] md:h-[320px] lg:h-auto
+  "
+  style={{
+    minHeight: undefined,
+    aspectRatio: "4 / 3",
+    background: "linear-gradient(to bottom, #b3e5fc 0%, #c8f0d8 52%, #8bc34a 100%)",
+  }}
+>
+  {/* night overlay */}
+  <div className="absolute inset-0 hidden dark:block"
+    style={{ background: "linear-gradient(to bottom, #0f172a 0%, #1e293b 50%, #14532d 100%)" }}/>
 
-            {/* GARDEN SCENE */}
-            <div
-              className="relative rounded-2xl overflow-hidden border border-emerald-100"
-              style={{
-                minHeight: 340,
-                background: "linear-gradient(to bottom, #b3e5fc 0%, #c8f0d8 52%, #8bc34a 100%)",
-              }}
-            >
-              {/* night overlay */}
-              <div className="absolute inset-0 hidden dark:block"
-                style={{ background: "linear-gradient(to bottom, #0f172a 0%, #1e293b 50%, #14532d 100%)" }}/>
+  {/* moon */}
+  <div className="hidden dark:block absolute top-4 right-4 sm:top-5 sm:right-8">
+    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 relative shadow-lg">
+      <div className="absolute left-3 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-900"/>
+    </div>
+  </div>
 
-              {/* moon */}
-              <div className="hidden dark:block absolute top-5 right-8">
-                <div className="w-12 h-12 rounded-full bg-gray-200 relative shadow-lg">
-                  <div className="absolute left-3 w-12 h-12 rounded-full bg-gray-900"/>
-                </div>
-              </div>
+  {/* sun (responsive fix) */}
+  <div
+    className="block dark:hidden absolute top-4 right-4 sm:top-5 sm:right-8 rounded-full"
+    style={{
+      width: "clamp(30px, 6vw, 52px)",
+      height: "clamp(30px, 6vw, 52px)",
+      background:"radial-gradient(circle at 38% 38%, #fff176, #fdd835)",
+      boxShadow:"0 0 40px 12px #fdd83555"
+    }}
+  />
 
-              {/* sun */}
-              <div className="block dark:hidden absolute top-5 right-8 rounded-full"
-                style={{ width:52, height:52,
-                  background:"radial-gradient(circle at 38% 38%, #fff176, #fdd835)",
-                  boxShadow:"0 0 40px 12px #fdd83555" }}/>
+  {/* stars */}
+  <div className="hidden dark:block absolute inset-0 pointer-events-none">
+    {Array.from({length:40}).map((_,i)=>(
+      <div key={i} style={{
+        position:"absolute",
+        top:`${(i*7+13)%60}%`,
+        left:`${(i*17+5)%100}%`,
+        width:2,
+        height:2,
+        background:"white",
+        borderRadius:"50%",
+        animation:`twinkle 2s infinite ${i*0.1}s`
+      }}/>
+    ))}
+  </div>
 
-              {/* stars */}
-              <div className="hidden dark:block absolute inset-0 pointer-events-none">
-                {Array.from({length:40}).map((_,i)=>(
-                  <div key={i} style={{
-                    position:"absolute", top:`${(i*7+13)%60}%`, left:`${(i*17+5)%100}%`,
-                    width:2, height:2, background:"white", borderRadius:"50%",
-                    animation:`twinkle 2s infinite ${i*0.1}s`
-                  }}/>
-                ))}
-              </div>
+  {/* clouds (scaled) */}
+  <div className="block dark:hidden">
+    <div className="absolute top-6 left-6 sm:top-8 sm:left-16 opacity-70 scale-75 sm:scale-100">
+      <svg viewBox="0 0 90 36" className="w-16 sm:w-24">
+        <ellipse cx="45" cy="24" rx="40" ry="14" fill="white"/>
+        <ellipse cx="30" cy="22" rx="22" ry="16" fill="white"/>
+        <ellipse cx="58" cy="20" rx="20" ry="15" fill="white"/>
+      </svg>
+    </div>
+  </div>
 
-              {/* clouds */}
-              <div className="block dark:hidden">
-                <div className="absolute top-8 left-16 opacity-70">
-                  <svg width="90" height="36" viewBox="0 0 90 36">
-                    <ellipse cx="45" cy="24" rx="40" ry="14" fill="white"/>
-                    <ellipse cx="30" cy="22" rx="22" ry="16" fill="white"/>
-                    <ellipse cx="58" cy="20" rx="20" ry="15" fill="white"/>
-                  </svg>
-                </div>
-                <div className="absolute top-12 left-1/2 -translate-x-1/2 opacity-45">
-                  <svg width="68" height="28" viewBox="0 0 68 28">
-                    <ellipse cx="34" cy="18" rx="30" ry="11" fill="white"/>
-                    <ellipse cx="22" cy="16" rx="16" ry="12" fill="white"/>
-                    <ellipse cx="46" cy="15" rx="15" ry="11" fill="white"/>
-                  </svg>
-                </div>
-              </div>
+  {/* hills + grass */}
+  <svg viewBox="0 0 800 160" preserveAspectRatio="none"
+    className="absolute bottom-0 left-0 w-full h-[35%] sm:h-[160px]">
+    <path d="M0 110 Q200 50 400 90 Q600 130 800 70 L800 160 L0 160Z" fill="#7cb342" opacity="0.4"/>
+    <path d="M0 128 Q150 94 360 112 Q560 130 800 100 L800 160 L0 160Z" fill="#558b2f"/>
+    {Array.from({length:44}).map((_,i)=>(
+      <GrassBlade key={i} x={i*19+4} h={12+(i%5)*3} lean={(i%3)-1}/>
+    ))}
+  </svg>
 
-              {/* hills + grass */}
-              <svg viewBox="0 0 800 160" preserveAspectRatio="none"
-                className="absolute bottom-0 left-0 w-full" style={{ height:160 }}>
-                <path d="M0 110 Q200 50 400 90 Q600 130 800 70 L800 160 L0 160Z" fill="#7cb342" opacity="0.4"/>
-                <path d="M0 128 Q150 94 360 112 Q560 130 800 100 L800 160 L0 160Z" fill="#558b2f"/>
-                {Array.from({length:44}).map((_,i)=>(
-                  <GrassBlade key={i} x={i*19+4} h={12+(i%5)*3} lean={(i%3)-1}/>
-                ))}
-              </svg>
+  {/* EMPTY */}
+  {allGardenTasks.length === 0 && (
+    <div className="absolute inset-0 flex items-center justify-center">
+      <p className="text-emerald-700 text-sm font-medium opacity-70">
+        Add tasks to start your garden 🌱
+      </p>
+    </div>
+  )}
 
-              {allGardenTasks.length === 0 && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <p className="text-emerald-700 text-sm font-medium opacity-70">
-                    Add tasks to start your garden 🌱
-                  </p>
-                </div>
-              )}
+  {/* 🌻 PLANTS (FIXED FLOATING) */}
+  <div
+    className="
+      absolute left-0 right-0 flex items-end
+      px-2 sm:px-6
+      flex-wrap
+    "
+    style={{
+      bottom: "clamp(10px, 6%, 28px)",
+      gap: "clamp(4px, 2vw, 20px)"
+    }}
+  >
+    {allGardenTasks.map((task) => {
 
-              {/* ── PLANTS ROW ── */}
-              <div className="absolute bottom-0 left-0 right-0 flex items-end px-6"
-                style={{ paddingBottom: 28, flexWrap: "wrap", gap: 0 }}>
-                {allGardenTasks.map((task, i) => {
-                  
-                  const total  = task.subtasks?.length ?? 0;
-                  const done   = task.subtasks?.filter(st => st.completed ?? st.done).length ?? 0;
-                  const progress = total > 0
-                    ? done / total
-                    : task.completed ? 1 : 0;
+      const total  = task.subtasks?.length ?? 0;
+      const done   = task.subtasks?.filter(st => st.completed ?? st.done).length ?? 0;
+      const progress = total > 0
+        ? done / total
+        : task.completed ? 1 : 0;
 
-                  return (
-                    <div
-                      key={task.id}
-                      className="flex flex-col items-center group"
-                      style={{
-                        flex: "0 0 auto",
-marginRight: "clamp(4px, 2vw, 24px)",                        position: "relative",
-                      }}
-                      title={`${task.title} — ${Math.round(progress * 100)}%`}
-                    >
-                      {/* The growing flower — same component at all stages */}
-                      <GrowingFlower
-  plantType={task.plantType}
-  progress={progress}
-  seed={task.id}
-/>
+      return (
+        <div
+          key={task.id}
+          className="flex flex-col items-center group relative"
+          title={`${task.title} — ${Math.round(progress * 100)}%`}
+        >
+          {/* responsive flower */}
+          <div className="w-[30px] sm:w-[45px] md:w-[60px] lg:w-auto">
+            <GrowingFlower
+              plantType={task.plantType}
+              progress={progress}
+              seed={task.id}
+            />
+          </div>
 
-                      {/* progress pip row beneath plant */}
-                      {total > 0 && (
-                        <div className="flex gap-0.5 mt-1 relative z-10">
-                          {Array.from({length: total}).map((_,j) => (
-                            <div key={j}
-                              className="rounded-full"
-                              style={{
-                                width: 5, height: 5,
-                                background: j < done ? "#22c55e" : "rgba(255,255,255,0.5)",
-                                border: "1px solid rgba(0,0,0,0.15)",
-                              }}
-                            />
-                          ))}
-                        </div>
-                      )}
-
-                      {/* hover tooltip */}
-                      <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2
-                        bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200
-                        text-xs rounded-lg px-2 py-1 whitespace-nowrap shadow-md
-                        opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none
-                        border border-gray-100 dark:border-gray-700 z-20"
-                        style={{ backdropFilter:"blur(4px)", fontSize:10 }}>
-                        {task.completed ? "✅" : "🌱"} {task.title}
-                        {total > 0 && <span className="text-gray-400 ml-1">({done}/{total})</span>}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* CATEGORY CARDS */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Object.entries(plantsByCategory).map(([category, plants]) => (
-                <div key={category}
-                  className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-                  <h3 className="font-semibold mb-3">{category}</h3>
-                  <div className="flex gap-1 mb-3 items-end" style={{ height: 70 }}>
-                    {plants.map((p, i) => (
-                      <div key={p.id}
-                        style={{ transform:"scale(0.48)", transformOrigin:"bottom left", marginRight:-24 }}>
-                        <GrowingFlower
-                          plantType={p.plantType}
-                          progress={1}
-                          index={i}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {plants.length} plant{plants.length !== 1 ? "s" : ""} grown
-                  </p>
-                </div>
+          {/* dots */}
+          {total > 0 && (
+            <div className="flex gap-0.5 mt-1">
+              {Array.from({length: total}).map((_,j) => (
+                <div key={j}
+                  className="rounded-full"
+                  style={{
+                    width: 4,
+                    height: 4,
+                    background: j < done ? "#22c55e" : "rgba(255,255,255,0.5)",
+                  }}
+                />
               ))}
             </div>
-
+          )}
+        </div>
+      );
+    })}
+  </div>
+</div>
+           
+           
             {/* STATS */}
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
               <h2 className="text-xl font-bold mb-4">Garden Statistics</h2>

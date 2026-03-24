@@ -6,12 +6,12 @@ export default function Sidebar({ onClose }) {
   const { theme, toggleTheme } = useApp();
   const location = useLocation();
 
-  const linkClass = (path) =>
-    `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
-      location.pathname === path
-        ? "bg-green-600 text-white"
-        : "hover:bg-gray-800 hover:text-green-400"
-    }`;
+ const linkClass = (path) =>
+  `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
+    location.pathname === path
+      ? "bg-green-600 text-white"
+      : "text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 hover:text-green-600 dark:hover:text-green-400"
+  }`;
 
   return (
     <div className="fixed top-0 left-0 h-screen w-64 bg-white dark:bg-slate-900 z-[9999] flex flex-col p-6 border-r border-gray-200 dark:border-slate-800 shadow-lg">
@@ -25,8 +25,8 @@ export default function Sidebar({ onClose }) {
       </button>
 
       {/* Logo */}
-      <h2 className="text-2xl font-bold mb-10 flex items-center gap-2">
-        🌸 Bloomly
+<h2 className="text-2xl font-bold mb-10 flex items-center gap-2 text-gray-900 dark:text-white">
+          🌸 Bloomly
       </h2>
 
       {/* Navigation */}
