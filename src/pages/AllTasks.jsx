@@ -57,8 +57,13 @@ function GrowingDaisy({ progress, seed }) {
   const stemY = BASE_Y - stemH;
 
   return (
-    <svg width="80" height="140" viewBox="0 0 80 140" className="flower-sway" style={sway}>
-      {/* soil mound */}
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 80 140"
+  className="flower-sway"
+  style={sway}
+>      {/* soil mound */}
       <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
       {/* stem */}
       {stemT > 0 && (
@@ -115,8 +120,13 @@ function GrowingTulip({ progress, seed }) {
   const stemH = stemT * (BASE_Y - STEM_TOP);
 
   return (
-    <svg width="80" height="140" viewBox="0 0 80 140" className="flower-sway" style={sway}>
-      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 80 140"
+  className="flower-sway"
+  style={sway}
+>      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
       {stemT > 0 && <line x1={CX} y1={BASE_Y} x2={CX} y2={BASE_Y - stemH} stroke="#4a7c3f" strokeWidth="2.6" strokeLinecap="round"/>}
       <path d={`M${CX} ${BASE_Y-stemH*0.5} C${CX-20} ${BASE_Y-stemH*0.62} ${CX-24} ${BASE_Y-stemH*0.78} ${CX-6} ${BASE_Y-stemH*0.82}Z`}
         fill="#5a9e4a" opacity={leaf1T*0.9}/>
@@ -159,8 +169,13 @@ function GrowingCherryBlossom({ progress, seed }) {
   const stemH   = stemT * (BASE_Y - STEM_TOP);
 
   return (
-    <svg width="80" height="140" viewBox="0 0 80 140" className="flower-sway" style={sway}>
-      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 80 140"
+  className="flower-sway"
+  style={sway}
+>      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
       {stemT > 0 && <line x1={CX} y1={BASE_Y} x2={CX} y2={BASE_Y-stemH} stroke="#4a7c3f" strokeWidth="2.6" strokeLinecap="round"/>}
       <path d={`M${CX} ${BASE_Y-stemH*0.52} C${CX-20} ${BASE_Y-stemH*0.64} ${CX-24} ${BASE_Y-stemH*0.78} ${CX-6} ${BASE_Y-stemH*0.82}Z`}
         fill="#5a9e4a" opacity={leaf1T*0.9}/>
@@ -206,8 +221,13 @@ function GrowingSunflower({ progress, seed }) {
   const stemH   = stemT * (BASE_Y - STEM_TOP - 10);
 
   return (
-    <svg width="80" height="140" viewBox="0 0 80 140" className="flower-sway" style={sway}>
-      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 80 140"
+  className="flower-sway"
+  style={sway}
+>      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
       {stemT > 0 && <line x1={CX} y1={BASE_Y} x2={CX} y2={BASE_Y-stemH} stroke="#3d6e32" strokeWidth="3" strokeLinecap="round"/>}
       <path d={`M${CX} ${BASE_Y-stemH*0.48} C${CX-22} ${BASE_Y-stemH*0.6} ${CX-26} ${BASE_Y-stemH*0.76} ${CX-7} ${BASE_Y-stemH*0.8}Z`}
         fill="#4a8040" opacity={leaf1T*0.9}/>
@@ -251,8 +271,13 @@ function GrowingHibiscus({ progress, seed }) {
   const stemH   = stemT * (BASE_Y - STEM_TOP);
 
   return (
-    <svg width="80" height="140" viewBox="0 0 80 140" className="flower-sway" style={sway}>
-      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 80 140"
+  className="flower-sway"
+  style={sway}
+>      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
       {stemT > 0 && <line x1={CX} y1={BASE_Y} x2={CX} y2={BASE_Y-stemH} stroke="#4a7c3f" strokeWidth="2.6" strokeLinecap="round"/>}
       <path d={`M${CX} ${BASE_Y-stemH*0.52} C${CX-20} ${BASE_Y-stemH*0.64} ${CX-24} ${BASE_Y-stemH*0.78} ${CX-6} ${BASE_Y-stemH*0.82}Z`}
         fill="#5a9e4a" opacity={leaf1T*0.9}/>
@@ -302,8 +327,13 @@ function GrowingRose({ progress, seed }) {
   const stemH   = stemT * (BASE_Y - STEM_TOP);
 
   return (
-    <svg width="80" height="140" viewBox="0 0 80 140" className="flower-sway" style={sway}>
-      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 80 140"
+  className="flower-sway"
+  style={sway}
+>      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
       {stemT > 0 && <line x1={CX} y1={BASE_Y} x2={CX} y2={BASE_Y-stemH} stroke="#4a7c3f" strokeWidth="2.6" strokeLinecap="round"/>}
       {/* thorns */}
       {leaf1T > 0.5 && <path d={`M${CX} ${BASE_Y-stemH*0.62} L${CX-8} ${BASE_Y-stemH*0.56} L${CX} ${BASE_Y-stemH*0.6}Z`} fill="#3d6e32"/>}
@@ -357,8 +387,13 @@ function GrowingSeedling({ progress, seed }) {
   const stemH  = stemT * (BASE_Y - STEM_TOP - 10);
 
   return (
-    <svg width="80" height="140" viewBox="0 0 80 140" className="flower-sway" style={sway}>
-      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 80 140"
+  className="flower-sway"
+  style={sway}
+>      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
       {stemT > 0 && <line x1={CX} y1={BASE_Y} x2={CX} y2={BASE_Y-stemH} stroke="#5a9e4a" strokeWidth="2.4" strokeLinecap="round"/>}
       <path d={`M${CX} ${BASE_Y-stemH*0.6} C${CX-16} ${BASE_Y-stemH*0.72} ${CX-20} ${BASE_Y-stemH*0.9} ${CX-4} ${BASE_Y-stemH*0.95}Z`}
         fill="#78c850" opacity={leaf1T*0.92}/>
@@ -381,8 +416,13 @@ function GrowingHerb({ progress, seed }) {
   const stemH  = stemT * (BASE_Y - STEM_TOP);
 
   return (
-    <svg width="80" height="140" viewBox="0 0 80 140" className="flower-sway" style={sway}>
-      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 80 140"
+  className="flower-sway"
+  style={sway}
+>      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
       {stemT > 0 && <line x1={CX} y1={BASE_Y} x2={CX} y2={BASE_Y-stemH} stroke="#4a8c3a" strokeWidth="2.4" strokeLinecap="round"/>}
       <path d={`M${CX} ${BASE_Y-stemH*0.45} C${CX-18} ${BASE_Y-stemH*0.58} ${CX-22} ${BASE_Y-stemH*0.74} ${CX-5} ${BASE_Y-stemH*0.78}Z`}
         fill="#6abf4a" opacity={b1T*0.9}/>
@@ -411,8 +451,13 @@ function GrowingPottedPlant({ progress, seed }) {
   const stemH  = stemT * (potY - STEM_TOP - 10);
 
   return (
-    <svg width="80" height="140" viewBox="0 0 80 140" className="flower-sway" style={sway}>
-      {/* pot */}
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 80 140"
+  className="flower-sway"
+  style={sway}
+>      {/* pot */}
       {potT > 0 && (
         <>
           <path d={`M${CX-16} ${potY} L${CX-14} ${BASE_Y} L${CX+14} ${BASE_Y} L${CX+16} ${potY}Z`}
@@ -447,8 +492,13 @@ function GrowingRicePlant({ progress, seed }) {
   const stemH   = stemT * (BASE_Y - STEM_TOP - 8);
 
   return (
-    <svg width="80" height="140" viewBox="0 0 80 140" className="flower-sway" style={sway}>
-      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 80 140"
+  className="flower-sway"
+  style={sway}
+>      <ellipse cx={CX} cy={BASE_Y} rx="18" ry="6" fill="#8B5E3C" opacity="0.45"/>
       {stemT > 0 && <line x1={CX} y1={BASE_Y} x2={CX} y2={BASE_Y-stemH} stroke="#8d9e3a" strokeWidth="2.4" strokeLinecap="round"/>}
       <path d={`M${CX} ${BASE_Y-stemH*0.42} C${CX-22} ${BASE_Y-stemH*0.55} ${CX-28} ${BASE_Y-stemH*0.72} ${CX-8} ${BASE_Y-stemH*0.76}Z`}
         fill="#aab840" opacity={blade1T*0.9}/>
@@ -554,6 +604,9 @@ export default function AllTasks({ preview = false }) {
   return (
     <>
       <style>{`
+      ::-webkit-scrollbar {
+  display: none;
+}
         @keyframes sway {
           0%   { transform: rotate(-2.5deg); }
           50%  { transform: rotate(2.5deg); }
@@ -643,8 +696,6 @@ export default function AllTasks({ preview = false }) {
               </div>
             </div>
 
-           
-
             {/* GARDEN SCENE */}
             <div
               className="relative rounded-2xl overflow-hidden border border-emerald-100"
@@ -718,8 +769,14 @@ export default function AllTasks({ preview = false }) {
               )}
 
               {/* ── PLANTS ROW ── */}
-              <div className="absolute bottom-0 left-0 right-0 flex items-end px-6"
-                style={{ paddingBottom: 28, flexWrap: "wrap", gap: 0 }}>
+              <div
+ className="absolute bottom-0 left-0 right-0 flex items-end px-3 overflow-x-auto"
+  style={{
+    paddingBottom: 20,
+    gap: "6px",
+    scrollbarWidth: "none", // Firefox
+  }}
+>
                 {allGardenTasks.map((task, i) => {
                   
                   const total  = task.subtasks?.length ?? 0;
@@ -729,13 +786,13 @@ export default function AllTasks({ preview = false }) {
                     : task.completed ? 1 : 0;
 
                   return (
-                    <div
-                      key={task.id}
-                      className="flex flex-col items-center group"
-                      style={{
-                        flex: "0 0 auto",
-marginRight: "clamp(4px, 2vw, 24px)",                        position: "relative",
-                      }}
+<div
+  key={task.id}
+  className="flex flex-col items-center group shrink-0"
+  style={{
+    width: "clamp(50px, 12vw, 70px)",
+    position: "relative",
+  }}                   
                       title={`${task.title} — ${Math.round(progress * 100)}%`}
                     >
                       {/* The growing flower — same component at all stages */}
@@ -777,8 +834,6 @@ marginRight: "clamp(4px, 2vw, 24px)",                        position: "relative
               </div>
             </div>
 
-           
-           
             {/* STATS */}
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
               <h2 className="text-xl font-bold mb-4">Garden Statistics</h2>
