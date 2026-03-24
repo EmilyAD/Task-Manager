@@ -50,13 +50,15 @@ export function AppProvider({ children }) {
     }
   ]);
 
-  const completeTask = (id) => {
-    setTasks(tasks.map(task =>
+ const completeTask = (id) => {
+  setTasks(prev =>
+    prev.map(task =>
       task.id === id
-        ? { ...task, completed: true, growthStage: 100, completedAt: new Date() }
+        ? { ...task, completed: !task.completed } 
         : task
-    ));
-  };
+    )
+  );
+};
 
   const addTask = (newTask) => {
     setTasks([

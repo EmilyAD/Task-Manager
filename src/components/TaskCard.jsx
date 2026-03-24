@@ -68,7 +68,7 @@ export default function TaskCard({ task, onComplete }) {
           {task.category}
         </span>
 
-        <span className="text-gray-500 dark:text-gray-300">📅 {task.dueDate}</span>
+        <span className="text-gray-500 dark:text-gray-300"> {task.dueDate}</span>
       </div>
     </div>
   );
