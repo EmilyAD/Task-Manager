@@ -17,14 +17,14 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* Public (NO sidebar) */}
+        {/* Public (no sidebar) */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected / Dashboard (WITH sidebar) */}
+        {/* Protected / Dashboard (with sidebar) */}
         <Route element={<DashboardLayout />}>
           <Route path="/tasks" element={<AllTasks />} />
           <Route path="/profile" element={<Profile />} />

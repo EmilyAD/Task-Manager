@@ -35,7 +35,7 @@ export default function TaskCard({ task, onComplete }) {
 
         <button
           onClick={(e) => {
-            e.stopPropagation(); // prevents the card click
+            e.stopPropagation(); 
             onComplete();
           }}
         >
