@@ -66,7 +66,55 @@ export function AppProvider({ children }) {
     )
   );
 };
+// ... existing code ...
 
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('app_user');
+    return savedUser
+      ? JSON.parse(savedUser)
+      : { name: 'New User', email: 'user@example.com', profilePicture: null, joinDate: new Date().toISOString(), bio: '' };
+  });
+
+  // ADD THIS LOGIN FUNCTION HERE
+  const login = (email) => {
+    const newUser = { 
+      name: 'May', // You can change this to be dynamic later
+      email: email, 
+      profilePicture: null, 
+      joinDate: new Date().toISOString(), 
+      bio: 'Growing my digital garden! 🌿' 
+    };
+    setUser(newUser);
+    localStorage.setItem('app_user', JSON.stringify(newUser));
+  };
+
+  const updateProfile = (newData) => {
+    setUser(prev => {
+      const updated = { ...prev, ...newData };
+      localStorage.setItem('app_user', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  return (
+    <AppContext.Provider
+      value={{ 
+        tasks, 
+        addTask, 
+        updateTask, 
+        completeTask, 
+        toggleSubtask,
+        theme,         
+        toggleTheme,   
+        user,
+        login, // MAKE SURE TO ADD THIS HERE
+        updateProfile  
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
+}
 const toggleSubtask = (taskId, subtaskId) => {
   setTasks(prev =>
     prev.map(task => {
@@ -137,7 +185,7 @@ const toggleSubtask = (taskId, subtaskId) => {
       {children}
     </AppContext.Provider>
   );
-}
+
 
 
     
