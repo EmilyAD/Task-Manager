@@ -1,7 +1,7 @@
 # 🌸 Bloomly - Task Management System
 **Team Name:** The In-Silico Coders  
 **Topic:**  Task Management/To-Do List with Categories  
-**Live Demo:**  //still need the link 
+**Live Demo:**  [https://bloomlyapp.vercel.app/]
 
 ## 📝 Project Overview
 Bloomly is a responsive, component-based React application designed to transform mundane task management into a visual, rewarding experience. Built with Vite, the platform utilizes a unique "Digital Garden" metaphor to represent productivity and personal growth. In this ecosystem, every new task created by a user begins as a seed planted in the soil, symbolizing a goal yet to be nurtured. As users interact with their "All Tasks" and "Task by Category" views, the application tracks their progress using dynamic React state. Upon completion, these tasks "bloom" into a variety of fully grown plants, such as herbs and vibrant flowers, filling the user's dashboard with a flourishing digital harvest.
@@ -47,7 +47,10 @@ Each member was responsible for two primary views and specific core features:
 
 
 ## 📸 Screenshots
-// will get the ss of app
+
+* [Task_Manager_Application.pdf](https://github.com/user-attachments/files/26227123/Task_Manager_Application.pdf)
+* [DarkMode.pdf](https://github.com/user-attachments/files/26227145/DarkMode.pdf)
+* [On_Phone.pdf](https://github.com/user-attachments/files/26227363/On_Phone.pdf)
 
 ---
 
