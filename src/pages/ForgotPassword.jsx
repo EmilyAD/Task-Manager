@@ -83,7 +83,7 @@ text-[#6d7187] dark:text-[#b9c2b0]">
           <button
             type="submit"
              className="mt-10 w-full 
-              bg-[#43A047] dark:bg-[#8fbf7a] 
+              bg-[##43A047] dark:bg-[#8fbf7a] 
               text-white dark:text-[#010513] 
               py-4 rounded-xl font-bold 
               hover:opacity-90 transition"
