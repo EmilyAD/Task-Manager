@@ -48,8 +48,9 @@ Each member was responsible for two primary views and specific core features:
 
 ## 📸 Screenshots
 
-[Task_Manager_Application.pdf](https://github.com/user-attachments/files/26227123/Task_Manager_Application.pdf)
-[DarkMode.pdf](https://github.com/user-attachments/files/26227145/DarkMode.pdf)
+* [Task_Manager_Application.pdf](https://github.com/user-attachments/files/26227123/Task_Manager_Application.pdf)
+* [DarkMode.pdf](https://github.com/user-attachments/files/26227145/DarkMode.pdf)
+* [On_Phone.pdf](https://github.com/user-attachments/files/26227363/On_Phone.pdf)
 
 ---
 
