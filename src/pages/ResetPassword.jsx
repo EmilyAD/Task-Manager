@@ -50,11 +50,11 @@ export default function ResetPassword() {
   }
 
   return (
-    <section className="min-h-screen bg-[#f4f4f1] dark:bg-[#0f1c0f] 
+    <section className="min-h-screen bg-[#f4f4f1] dark:bg-[#010513] 
           flex items-center justify-center px-4 py-8 
           transition-colors duration-300">
       <div className="w-full max-w-[760px] 
-          bg-white dark:bg-[#1b2c1b] 
+          bg-white dark:bg-[#10151C] 
           rounded-[20px] 
           shadow-[0_12px_40px_rgba(0,0,0,0.08)] 
           px-6 py-10 md:px-12 md:py-12 
@@ -135,7 +135,7 @@ export default function ResetPassword() {
             type="submit"
             className="mt-10 w-full 
               bg-[#43A047] dark:bg-[#8fbf7a] 
-              text-white dark:text-[#0f1c0f] 
+              text-white dark:text-[#010513] 
               py-4 rounded-xl font-bold 
               hover:opacity-90 transition"
           >
