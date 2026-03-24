@@ -14,18 +14,19 @@ export default function Sidebar({ onClose }) {
     }`;
 
   return (
-    <div className="h-screen w-64 bg-white dark:bg-slate-900 text-gray-900 dark:text-white flex flex-col p-6 border-r border-gray-200 dark:border-slate-800 relative">
+    <div className="fixed top-0 left-0 h-screen w-64 bg-white dark:bg-slate-900 z-[9999] flex flex-col p-6 border-r border-gray-200 dark:border-slate-800 shadow-lg">
+
       {/* CLOSE BUTTON */}
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 p-1 rounded-md hover:bg-gray-200 transition"
+        className="absolute top-4 right-4 p-1 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 transition"
       >
         <X size={18} />
       </button>
 
       {/* Logo */}
       <h2 className="text-2xl font-bold mb-10 flex items-center gap-2">
-        🌱 Bloomly
+        🌸 Bloomly
       </h2>
 
       {/* Navigation */}
@@ -55,34 +56,34 @@ export default function Sidebar({ onClose }) {
           <User size={18} />
           Profile
         </Link>
-      
+
       </nav>
+
+      {/* Bottom Section */}
       <div className="mt-auto space-y-4 pt-6">
-        
-        
-        {/* CIRCULAR THEME TOGGLE (Left Aligned) */}
+
+        {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
           className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 hover:scale-110 transition-all shadow-sm"
         >
-          {theme === 'dark' ? (
+          {theme === "dark" ? (
             <Sun size={20} className="text-amber-500" />
           ) : (
             <Moon size={20} className="text-indigo-600" />
           )}
         </button>
 
-      {/* Logout */}
-      <div className="mt-auto pt-10">
+        {/* Logout */}
         <Link
           to="/login"
           className="block text-center bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700 transition"
         >
           Logout
         </Link>
+
       </div>
-   </div>
-  </div>
+    </div>
   );
 }

@@ -480,8 +480,8 @@ function GrowingRicePlant({ progress, seed }) {
 }
 
 
-function GrowingFlower({ plantType, progress, seed }) {
-  const key = getPlantKey(plantType);
+export function GrowingFlower({ plantType, progress, seed }) {
+    const key = getPlantKey(plantType);
   const props = { progress, seed };
   switch (key) {
     case "cherry_blossom": return <GrowingCherryBlossom {...props}/>;
@@ -508,8 +508,8 @@ function GrassBlade({ x, h = 20, lean = 0 }) {
 }
 
 
-export default function AllTasks() {
-  const { tasks, completeTask, toggleSubtask } = useApp();
+export default function AllTasks({ preview = false }) {
+    const { tasks, completeTask, toggleSubtask } = useApp();
 
   const completedTasks = tasks.filter(t => t.completed);
   const pendingTasks   = tasks.filter(t => !t.completed);
@@ -643,21 +643,7 @@ export default function AllTasks() {
               </div>
             </div>
 
-            {/* Legend */}
-            <div className="flex gap-5 text-xs text-gray-500 dark:text-gray-400 flex-wrap">
-              <span className="flex items-center gap-1.5">
-                <span className="inline-block w-2.5 h-2.5 rounded-full bg-amber-300"/>
-                Seed (0 subtasks done)
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="inline-block w-2.5 h-2.5 rounded-full bg-lime-400"/>
-                Growing (in progress)
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"/>
-                Bloomed (all done)
-              </span>
-            </div>
+           
 
             {/* GARDEN SCENE */}
             <div
