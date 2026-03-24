@@ -120,13 +120,28 @@ const toggleSubtask = (taskId, subtaskId) => {
   };
 
   return (
+    
     <AppContext.Provider
-  value={{ tasks, addTask, updateTask, completeTask, toggleSubtask }}
->
-  {children}
-</AppContext.Provider>
+      value={{ 
+        tasks, 
+        addTask, 
+        updateTask, 
+        completeTask, 
+        toggleSubtask,
+        theme,         
+        toggleTheme,   
+        user,          
+        updateProfile  
+      }}
+    >
+      {children}
+    </AppContext.Provider>
   );
 }
+
+
+    
+
 
 export function useApp() {
   return useContext(AppContext);

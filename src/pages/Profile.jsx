@@ -282,7 +282,7 @@ const [userData, setUserData] = useState(user || {
                     Appearance
                   </span>
                   <div className={`w-10 h-5 rounded-full relative ${theme === 'dark' ? 'bg-emerald-600' : 'bg-gray-300'}`}>
-                    <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-transform ${theme === 'dark' ? 'translate-x-6' : 'translate-x-1'}`} />
+                    <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all duration-300 ${theme === 'dark' ? 'translate-x-6' : 'translate-x-1'}`} />
                   </div>
                 </button>
               </div>
