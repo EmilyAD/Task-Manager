@@ -3,11 +3,6 @@ import { useApp } from "../context/AppContext";
 import TaskCard from "../components/TaskCard";
 import { Search, Trophy } from "lucide-react";
 
-// ─── PLANT TYPE → KEY ────────────────────────────────────────────────────────
-// Handles all likely formats: emoji string, display name, slug, partial match.
-// Your picker may store the value as an emoji ("🌸"), a label ("Cherry Blossom"),
-// a slug ("cherry_blossom"), or a Unicode name. All are covered here.
-
 const EMOJI_MAP = {
   "🌱": "seedling",
   "🌿": "herb",
@@ -23,7 +18,6 @@ const EMOJI_MAP = {
   "🌾": "rice_plant",
 };
 
-// Text / slug patterns — checked via .includes() so partial matches work
 const TEXT_PATTERNS = [
   ["cherry",       "cherry_blossom"],
   ["blossom",      "cherry_blossom"],
@@ -43,21 +37,18 @@ function getPlantKey(plantType) {
   if (!plantType) return "seedling";
   const raw = String(plantType).trim();
 
-  // 1. Direct emoji match
   if (EMOJI_MAP[raw]) return EMOJI_MAP[raw];
 
-  // 2. String may contain an emoji somewhere (e.g. "🌸 Cherry Blossom")
   for (const [emoji, key] of Object.entries(EMOJI_MAP)) {
     if (raw.includes(emoji)) return key;
   }
 
-  // 3. Text / slug match (case-insensitive, partial)
   const lower = raw.toLowerCase().replace(/[_\-]/g, " ");
   for (const [pattern, key] of TEXT_PATTERNS) {
     if (lower.includes(pattern)) return key;
   }
 
-  return "seedling"; // final fallback
+  return "seedling"; 
 }
 
 function swayStyle(index, speed = 3.2) {
@@ -66,10 +57,6 @@ function swayStyle(index, speed = 3.2) {
     transformOrigin: "50% 100%",
   };
 }
-
-// ══════════════════════════════════════════════════════════════════════════════
-// SVG FLOWER COMPONENTS
-// ══════════════════════════════════════════════════════════════════════════════
 
 function PlantSeedling({ index = 0 }) {
   return (
@@ -279,7 +266,6 @@ function PlantRicePlant({ index = 0 }) {
   );
 }
 
-// ─── SEED UNDERGROUND ─────────────────────────────────────────────────────────
 function SeedUnderground({ index = 0, taskTitle = "" }) {
   const delay = ((index * 0.53) % 2.4).toFixed(2);
   return (
@@ -323,11 +309,8 @@ function SeedUnderground({ index = 0, taskTitle = "" }) {
   );
 }
 
-// ─── PLANT DISPATCHER ────────────────────────────────────────────────────────
 function PlantFlower({ plantType, index }) {
   const key = getPlantKey(plantType);
-  // DEV HINT: uncomment the line below to see what value is being received
-  // console.log(`[Bloomly] plantType="${plantType}" → key="${key}"`);
   const props = { index };
   switch (key) {
     case "seedling":       return <PlantSeedling {...props}/>;
@@ -343,8 +326,6 @@ function PlantFlower({ plantType, index }) {
     default:               return <PlantSeedling {...props}/>;
   }
 }
-
-// ─── GRASS BLADE ─────────────────────────────────────────────────────────────
 function GrassBlade({ x, h = 20, lean = 0 }) {
   return (
     <path
@@ -354,9 +335,6 @@ function GrassBlade({ x, h = 20, lean = 0 }) {
   );
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// MAIN PAGE
-// ══════════════════════════════════════════════════════════════════════════════
 export default function AllTasks() {
   const { tasks, completeTask } = useApp();
 
@@ -398,7 +376,6 @@ export default function AllTasks() {
     return filtered;
   }, [tasks, filter, selectedCategory, searchQuery, sortBy]);
 
-  // All tasks: completed = flower, pending = seed
   const allGardenTasks = [...completedTasks, ...pendingTasks];
 
   return (
@@ -410,7 +387,10 @@ export default function AllTasks() {
           100% { transform: rotate(-2.5deg); }
         }
         .flower-sway { animation: sway 3.2s ease-in-out infinite; display: block; }
-
+        @keyframes twinkle {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+        }
         @keyframes seedPulse {
           0%, 100% { opacity: 0.85; transform: scale(1); }
           50%       { opacity: 1;    transform: scale(1.08); }
@@ -468,9 +448,6 @@ export default function AllTasks() {
             ))}
           </div>
 
-          {/* ══════════════════════════════════════════
-               MY GARDEN
-          ══════════════════════════════════════════ */}
           <div className="space-y-6 mt-16">
 
             <div className="flex items-center justify-between">
@@ -502,22 +479,58 @@ export default function AllTasks() {
 
             {/* GARDEN SCENE */}
             <div
-              className="relative rounded-2xl overflow-hidden border border-emerald-100"
-              style={{
-                minHeight: 340,
-                background: "linear-gradient(to bottom, #b3e5fc 0%, #c8f0d8 52%, #8bc34a 100%)",
-              }}
-            >
-              {/* Sun */}
-              <div className="absolute top-5 right-8 rounded-full"
-                style={{
-                  width: 52, height: 52,
-                  background: "radial-gradient(circle at 38% 38%, #fff176, #fdd835)",
-                  boxShadow: "0 0 40px 12px #fdd83555",
-                }}
-              />
+           className="relative rounded-2xl overflow-hidden border border-emerald-100"
+          style={{
+          minHeight: 340,
+          background: "linear-gradient(to bottom, #b3e5fc 0%, #c8f0d8 52%, #8bc34a 100%)",
+          }}
+        >
+
+        {/* 🌙 NIGHT OVERLAY */}
+        <div className="absolute inset-0 hidden dark:block"
+        style={{
+         background: "linear-gradient(to bottom, #0f172a 0%, #1e293b 50%, #14532d 100%)"
+        }}
+        />
+
+        {/* 🌙 MOON */}
+        <div className="hidden dark:block absolute top-5 right-8">
+        <div className="w-12 h-12 rounded-full bg-gray-200 relative shadow-lg">
+      <div className="absolute left-3 w-12 h-12 rounded-full bg-gray-900" />
+    </div>
+  </div>
+
+        {/* ☀️ SUN */}
+      <div className="block dark:hidden absolute top-5 right-8 rounded-full"
+      style={{
+      width: 52,
+      height: 52,
+      background: "radial-gradient(circle at 38% 38%, #fff176, #fdd835)",
+      boxShadow: "0 0 40px 12px #fdd83555",
+    }}
+  />
+
+      {/* ⭐ STARS */}
+      <div className="hidden dark:block absolute inset-0 pointer-events-none">
+      {Array.from({ length: 40 }).map((_, i) => (
+      <div
+        key={i}
+        style={{
+          position: "absolute",
+          top: `${Math.random() * 60}%`,
+          left: `${Math.random() * 100}%`,
+          width: 2,
+          height: 2,
+          background: "white",
+          borderRadius: "50%",
+          animation: `twinkle 2s infinite ${i * 0.1}s`,
+        }}
+      />
+    ))}
+  </div>
 
               {/* Clouds */}
+              <div className="block dark:hidden">
               <div className="absolute top-8 left-16 opacity-70">
                 <svg width="90" height="36" viewBox="0 0 90 36">
                   <ellipse cx="45" cy="24" rx="40" ry="14" fill="white"/>
@@ -531,6 +544,7 @@ export default function AllTasks() {
                   <ellipse cx="22" cy="16" rx="16" ry="12" fill="white"/>
                   <ellipse cx="46" cy="15" rx="15" ry="11" fill="white"/>
                 </svg>
+              </div>
               </div>
 
               {/* Rolling hills + grass */}
