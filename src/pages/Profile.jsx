@@ -9,13 +9,13 @@ export function Profile() {
   const navigate = useNavigate();
   
   const [isEditing, setIsEditing] = useState(false);
-const [userData, setUserData] = useState(user || {
-  name: "",
-  email: "",
-  bio: "",
-  profilePicture: "",
-  joinDate: ""
-});
+  const [userData, setUserData] = useState(user || {
+    name: "",
+    email: "",
+    bio: "",
+    profilePicture: "",
+    joinDate: ""
+  });
 
   useEffect(() => {
   setUserData(user || {
@@ -49,6 +49,7 @@ const [userData, setUserData] = useState(user || {
   const handleSave = () => {
     updateProfile(userData);
     setIsEditing(false);
+    if (!userData.name.trim()) return alert("Name is a required field!");
   };
 
   const handleLogout = () => {
@@ -163,27 +164,25 @@ const [userData, setUserData] = useState(user || {
                       </h2>
                     )}
                     
-                    {/* Info Rows (Mail and Calendar) */}
-                    <div className="flex flex-col items-center md:items-start gap-2 mt-3 text-gray-600 dark:text-gray-400">
-                      <div className="flex items-center gap-1.5 text-sm w-full justify-center md:justify-start">
-                        <Mail className="w-4 h-4 flex-shrink-0" />
-                        {isEditing ? (
-                          <input 
-                            className="bg-gray-100 dark:bg-gray-700 px-1 rounded border dark:text-white w-full max-w-[200px]" 
-                            value={userData.email}
-                            onChange={(e) => setUserData({...userData, email: e.target.value})}
-                          />
-                        ) : (
-                          <span className="truncate max-w-[220px] md:max-w-none px-2 md:px-0">
-                            {userData.email}
-                          </span>
-                        )}
+                    {/* Info Rows: Stacked on mobile, side-by-side on desktop */}
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-6 mt-3 text-gray-600 dark:text-gray-400 w-full">
+                    {/* Email Row */}
+                    <div className="flex items-center gap-1.5 text-sm">
+                    <Mail className="w-4 h-4 flex-shrink-0 text-emerald-600 dark:text-emerald-500" />
+                    <span className="truncate max-w-[200px] md:max-w-none">
+                    {userData?.email || "user@example.com"}
+                      </span>
                       </div>
-                      <div className="flex items-center gap-1.5 text-sm w-full justify-center md:justify-start">
-                        <Calendar className="w-4 h-4 flex-shrink-0" />
-                        <span className="whitespace-nowrap">
-                          Joined {new Date(userData.joinDate || '2026-03-01').toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                        </span>
+
+                      {/* Separator Dot - Only shows on desktop to look neat */}
+                      <div className="hidden md:block w-1 h-1 bg-gray-300 dark:bg-gray-600 rounded-full self-center" />
+
+                       {/* Date Row */}
+                       <div className="flex items-center gap-1.5 text-sm">
+                       <Calendar className="w-4 h-4 flex-shrink-0 text-emerald-600 dark:text-emerald-500" />
+                      <span className="whitespace-nowrap">
+                        Joined {new Date(userData?.joinDate || new Date()).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                      </span>
                       </div>
                     </div>
                   </div>
