@@ -23,7 +23,6 @@ export default function AddEditTask() {
   const location = useLocation();
   const { tasks, addTask, updateTask, darkMode } = useApp();
 
-  // Check if editing an existing task
   const existingTask = location.state?.task || null;
   const isEditing = !!existingTask;
 
@@ -33,14 +32,17 @@ export default function AddEditTask() {
     category: "Work",
     plantType: "🌱",
     dueDate: "",
+    subtasks: []
   });
 
   const [errors, setErrors] = useState({});
 
-  // Prefill the form if the user is editing a task
   useEffect(() => {
     if (existingTask) {
-      setFormData({ ...existingTask });
+      setFormData({
+        ...existingTask,
+        subtasks: existingTask.subtasks || [] // ✅ FIX HERE
+      });
     }
   }, [existingTask]);
 
@@ -58,7 +60,6 @@ export default function AddEditTask() {
     if (!validate()) return;
 
     if (isEditing && existingTask) {
-      
       updateTask(existingTask.id, formData);
     } else {
       addTask(formData);
@@ -122,18 +123,70 @@ export default function AddEditTask() {
           {errors.description && <p className="text-sm text-red-500 mt-1">{errors.description}</p>}
         </div>
 
+        {/* SUBTASKS */}
+        <div>
+          <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
+            Subtasks
+          </label>
+
+          <div className="space-y-2">
+            {(formData.subtasks || []).map((st) => (
+              <div key={st.id} className="flex gap-2">
+                <input
+                  type="text"
+                  value={st.text}
+                  onChange={(e) => {
+                    const updated = formData.subtasks.map(s =>
+                      s.id === st.id ? { ...s, text: e.target.value } : s
+                    );
+                    setFormData({ ...formData, subtasks: updated });
+                  }}
+                  className="flex-1 px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      subtasks: formData.subtasks.filter(s => s.id !== st.id)
+                    });
+                  }}
+                  className="text-red-500"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              setFormData({
+                ...formData,
+                subtasks: [
+                  ...(formData.subtasks || []),
+                  { id: Date.now(), text: "", done: false }
+                ]
+              });
+            }}
+            className="mt-2 text-green-600 text-sm"
+          >
+            + Add subtask
+          </button>
+        </div>
+
         {/* CATEGORY */}
         <div>
           <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">Category</label>
           <select
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 dark:text-white"
+            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl"
           >
             {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
+              <option key={cat}>{cat}</option>
             ))}
           </select>
         </div>
@@ -145,49 +198,51 @@ export default function AddEditTask() {
             type="date"
             value={formData.dueDate}
             onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-            className={`w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border ${
-              errors.dueDate ? "border-red-500" : "border-gray-200 dark:border-gray-700"
-            } rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 dark:text-white`}
+            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border rounded-xl"
           />
-          {errors.dueDate && <p className="text-sm text-red-500 mt-1">{errors.dueDate}</p>}
         </div>
 
-        {/* PLANT TYPES */}
-        <div>
-          <label className="block text-sm font-medium mb-3 text-gray-900 dark:text-white">Choose Your Plant</label>
-          <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 sm:gap-4">
-            {plantTypes.map((plant) => (
-              <button
-                key={plant.emoji}
-                type="button"
-                onClick={() => setFormData({ ...formData, plantType: plant.emoji })}
-                className={`flex flex-col items-center justify-center rounded-xl border-2 transition 
-                  ${formData.plantType === plant.emoji
-                    ? "border-green-500 bg-green-50 dark:bg-green-800"
-                    : "border-gray-200 hover:border-gray-300 dark:border-gray-700"} 
-                  text-gray-900 dark:text-white h-20 sm:h-28`}
-              >
-                <span className="text-2xl sm:text-3xl">{plant.emoji}</span>
-                <span className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 mt-1 text-center px-1">
-                  {plant.name}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
+{/* PLANT TYPES */}
+<div>
+  <label className="block text-sm font-medium mb-3 text-gray-900 dark:text-white">
+    Choose Your Plant
+  </label>
+
+  <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 sm:gap-4">
+    {plantTypes.map((plant) => (
+      <button
+        key={plant.emoji}
+        type="button"
+        onClick={() => setFormData({ ...formData, plantType: plant.emoji })}
+        className={`flex flex-col items-center justify-center rounded-xl border-2 transition 
+          ${
+            formData.plantType === plant.emoji
+              ? "border-green-500 bg-green-50 dark:bg-green-800"
+              : "border-gray-200 hover:border-gray-300 dark:border-gray-700"
+          } 
+          text-gray-900 dark:text-white h-20 sm:h-28`}
+      >
+        <span className="text-2xl sm:text-3xl">{plant.emoji}</span>
+        <span className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 mt-1 text-center px-1">
+          {plant.name}
+        </span>
+      </button>
+    ))}
+  </div>
+</div>
 
         {/* BUTTONS */}
         <div className="flex gap-4 pt-4">
           <button
             type="button"
             onClick={() => navigate("/tasks")}
-            className="flex-1 py-3 bg-gray-200 dark:bg-gray-800 dark:text-white rounded-xl font-medium hover:bg-gray-300 dark:hover:bg-gray-700 transition"
+            className="flex-1 py-3 bg-gray-200 rounded-xl"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="flex-1 flex items-center justify-center gap-2 py-3 bg-green-600 dark:bg-green-700 text-white rounded-xl font-medium hover:bg-green-700 dark:hover:bg-green-800 shadow-md transition"
+            className="flex-1 flex items-center justify-center gap-2 py-3 bg-green-600 text-white rounded-xl"
           >
             <Save className="w-5 h-5" />
             {isEditing ? "Update Task" : "Create Task"}

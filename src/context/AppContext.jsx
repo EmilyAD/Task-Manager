@@ -54,9 +54,34 @@ export function AppProvider({ children }) {
   setTasks(prev =>
     prev.map(task =>
       task.id === id
-        ? { ...task, completed: !task.completed } 
+        ? {
+            ...task,
+            completed: !task.completed,
+            subtasks: task.subtasks?.map(st => ({
+              ...st,
+              done: !task.completed 
+            }))
+          }
         : task
     )
+  );
+};
+
+const toggleSubtask = (taskId, subtaskId) => {
+  setTasks(prev =>
+    prev.map(task => {
+      if (task.id !== taskId) return task;
+
+      const updatedSubtasks = task.subtasks.map(st =>
+        st.id === subtaskId ? { ...st, done: !st.done } : st
+      );
+
+      return {
+        ...task,
+        subtasks: updatedSubtasks,
+        completed: updatedSubtasks.every(st => st.done) // auto complete 🔥
+      };
+    })
   );
 };
 
@@ -96,20 +121,10 @@ export function AppProvider({ children }) {
 
   return (
     <AppContext.Provider
-      value={{
-        tasks,
-        setTasks,
-        completeTask,
-        addTask,
-        updateTask, 
-        theme,
-        toggleTheme,
-        user,
-        updateProfile
-      }}
-    >
-      {children}
-    </AppContext.Provider>
+  value={{ tasks, addTask, updateTask, completeTask, toggleSubtask }}
+>
+  {children}
+</AppContext.Provider>
   );
 }
 

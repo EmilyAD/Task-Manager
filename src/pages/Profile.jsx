@@ -9,19 +9,28 @@ export function Profile() {
   const navigate = useNavigate();
   
   const [isEditing, setIsEditing] = useState(false);
-  const [userData, setUserData] = useState(user);
+const [userData, setUserData] = useState(user || {
+  name: "",
+  email: "",
+  bio: "",
+  profilePicture: "",
+  joinDate: ""
+});
 
-  // Synchronizes local form with global user data (your real email/name)
   useEffect(() => {
-    setUserData(user);
-  }, [user]);
+  setUserData(user || {
+    name: "",
+    email: "",
+    bio: "",
+    profilePicture: "",
+    joinDate: ""
+  });
+}, [user]);
 
-  // --- LOGIC CALCULATIONS ---
   const completedTasks = tasks.filter(t => t.completed).length;
   const totalTasks = tasks.length;
   const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
   
-  // Safe calculation for Perfect Week
   const tasksThisWeek = tasks.filter(task => {
     if (!task.completed || !task.completedAt) return false;
     
@@ -32,7 +41,6 @@ export function Profile() {
     return taskDate > sevenDaysAgo;
   });
 
-  // It stays 'false' until you actually have 7 tasks finished this week
   const isPerfectWeek = tasksThisWeek.length >= 7;
   
   const currentStreak = 7; 
@@ -44,7 +52,6 @@ export function Profile() {
   };
 
   const handleLogout = () => {
-    // Clear any local session if needed, then navigate
     navigate('/login');
   };
 
