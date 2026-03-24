@@ -29,7 +29,14 @@ To run this project locally, follow these steps:
 * **Framework:** React (Vite) 
 * **Styling:** Tailwind CSS (Mobile-first design) 
 * **Routing:** React Router 
-* **State Management:** React Hooks ($useState$, $useEffect$) 
+* **State Management:** React Hooks ($useState$, $useEffect$)
+
+## Primary Data Entities: 
+* Task: ID, Title, Description, Category, Growth Stage, and Completion Status.
+* User: Name, Email, Bio, and Achievement Stats.
+
+* Mock Data Explanation: "We used React useState combined with localStorage to simulate a database. This allows task updates and profile changes to persist during the demo without a backend".
+
 
 ## 👥 Team Contributions
 Each member was responsible for two primary views and specific core features: 
@@ -39,7 +46,7 @@ Each member was responsible for two primary views and specific core features:
 | :--- | :--- | :--- |
 | **Emily Abou Dehn** | Homepage & All Tasks | Landing UI, Search/Filter logic  |
 | **Kinda AL Gharib** | Add/Edit Task & Task by Category | Form validation & Category filtering  |
-| **May Ezzeddine** | User Profile & Progress/Stats | Developed the Global Dark Mode toggle, the Sidebar navigation button, and the User Statistics dashboard to track task completion data  |
+| **May Ezzeddine** | User Profile & Progress | Developed the Global Dark Mode toggle, the Sidebar navigation button, and the User Statistics dashboard to track task completion data  |
 | **Nour Al Ghadban** | Login & Register | Authentication forms & Input validation  |
 
 
