@@ -4,6 +4,7 @@ const AppContext = createContext();
 
 export function AppProvider({ children }) {
   const [theme, setTheme] = useState("light");
+
   const toggleTheme = () => setTheme(prev => (prev === "light" ? "dark" : "light"));
 
   useEffect(() => {
@@ -50,24 +51,6 @@ export function AppProvider({ children }) {
     }
   ]);
 
- const completeTask = (id) => {
-  setTasks(prev =>
-    prev.map(task =>
-      task.id === id
-        ? {
-            ...task,
-            completed: !task.completed,
-            subtasks: task.subtasks?.map(st => ({
-              ...st,
-              done: !task.completed 
-            }))
-          }
-        : task
-    )
-  );
-};
-// ... existing code ...
-
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('app_user');
     return savedUser
@@ -75,10 +58,11 @@ export function AppProvider({ children }) {
       : { name: 'New User', email: 'user@example.com', profilePicture: null, joinDate: new Date().toISOString(), bio: '' };
   });
 
-  // ADD THIS LOGIN FUNCTION HERE
+  // --- ACTIONS ---
+
   const login = (email) => {
     const newUser = { 
-      name: 'May', // You can change this to be dynamic later
+      name: 'May', 
       email: email, 
       profilePicture: null, 
       joinDate: new Date().toISOString(), 
@@ -96,6 +80,26 @@ export function AppProvider({ children }) {
     });
   };
 
+  const addTask = (newTask) => {
+    setTasks([...tasks, { ...newTask, id: Date.now(), growthStage: 0, completed: false, completedAt: null }]);
+  };
+
+  const updateTask = (id, newData) => {
+    setTasks(tasks.map(task => task.id === id ? { ...task, ...newData } : task));
+  };
+
+  const completeTask = (id) => {
+    setTasks(prev => prev.map(task => task.id === id ? { ...task, completed: !task.completed } : task));
+  };
+
+  const toggleSubtask = (taskId, subtaskId) => {
+    setTasks(prev => prev.map(task => {
+      if (task.id !== taskId) return task;
+      const updatedSubtasks = task.subtasks.map(st => st.id === subtaskId ? { ...st, done: !st.done } : st);
+      return { ...task, subtasks: updatedSubtasks, completed: updatedSubtasks.every(st => st.done) };
+    }));
+  };
+
   return (
     <AppContext.Provider
       value={{ 
@@ -107,7 +111,7 @@ export function AppProvider({ children }) {
         theme,         
         toggleTheme,   
         user,
-        login, // MAKE SURE TO ADD THIS HERE
+        login,          // This is the key fix!
         updateProfile  
       }}
     >
@@ -115,81 +119,6 @@ export function AppProvider({ children }) {
     </AppContext.Provider>
   );
 }
-const toggleSubtask = (taskId, subtaskId) => {
-  setTasks(prev =>
-    prev.map(task => {
-      if (task.id !== taskId) return task;
-
-      const updatedSubtasks = task.subtasks.map(st =>
-        st.id === subtaskId ? { ...st, done: !st.done } : st
-      );
-
-      return {
-        ...task,
-        subtasks: updatedSubtasks,
-        completed: updatedSubtasks.every(st => st.done) // auto complete 🔥
-      };
-    })
-  );
-};
-
-  const addTask = (newTask) => {
-    setTasks([
-      ...tasks,
-      {
-        ...newTask,
-        id: Date.now(),
-        growthStage: 0,
-        completed: false,
-        completedAt: null
-      }
-    ]);
-  };
-
-  const updateTask = (id, newData) => {
-  setTasks(tasks.map(task =>
-    task.id === id ? { ...task, ...newData } : task
-  ));
-};
-
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('app_user');
-    return savedUser
-      ? JSON.parse(savedUser)
-      : { name: 'New User', email: 'user@example.com', profilePicture: null, joinDate: new Date().toISOString(), bio: '' };
-  });
-
-  const updateProfile = (newData) => {
-    setUser(prev => {
-      const updated = { ...prev, ...newData };
-      localStorage.setItem('app_user', JSON.stringify(updated));
-      return updated;
-    });
-  };
-
-  return (
-    
-    <AppContext.Provider
-      value={{ 
-        tasks, 
-        addTask, 
-        updateTask, 
-        completeTask, 
-        toggleSubtask,
-        theme,         
-        toggleTheme,   
-        user,          
-        updateProfile  
-      }}
-    >
-      {children}
-    </AppContext.Provider>
-  );
-
-
-
-    
-
 
 export function useApp() {
   return useContext(AppContext);
