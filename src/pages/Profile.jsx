@@ -30,12 +30,7 @@ export function Profile() {
   });
 }, [user]);
 
-useEffect(() => {
-  // Auto-login if no user email (Vercel direct access fix)
-  if (!user?.email || user.email === 'user@example.com') {
-    login('may.ezzeddine@email.com');  // Your real email
-  }
-}, [user, login]);
+
 
   const completedTasks = tasks.filter(t => t.completed).length;
   const totalTasks = tasks.length;
