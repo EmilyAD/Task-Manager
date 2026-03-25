@@ -170,9 +170,9 @@ export function Profile() {
                     <div className="flex items-center gap-1.5 text-sm">
                     <Mail className="w-4 h-4 flex-shrink-0 text-emerald-600 dark:text-emerald-500" />
                     <span className="truncate max-w-[200px] md:max-w-none">
-                    {userData?.email || "user@example.com"}
-                      </span>
-                      </div>
+                       {user?.email || userData?.email || "No email set"}
+                    </span>
+                    </div>
 
                       {/* Separator Dot - Only shows on desktop to look neat */}
                       <div className="hidden md:block w-1 h-1 bg-gray-300 dark:bg-gray-600 rounded-full self-center" />
