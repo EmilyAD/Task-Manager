@@ -2,9 +2,12 @@ import { useApp } from '../context/AppContext';
 import { Mail, Calendar, Award, Settings, Moon, Sun, LogOut, Edit2, Camera } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-
+const updateProfile = (newUserData) => {
+  setUser(prev => ({ ...prev, ...newUserData }));
+  
+};
 export function Profile() {
-  const { tasks, theme, toggleTheme, user, updateProfile } = useApp();
+  const { tasks, theme, toggleTheme, user, updateProfile, login } = useApp();
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   
@@ -26,6 +29,13 @@ export function Profile() {
     joinDate: ""
   });
 }, [user]);
+
+useEffect(() => {
+  // Auto-login if no user email (Vercel direct access fix)
+  if (!user?.email || user.email === 'user@example.com') {
+    login('may.ezzeddine@email.com');  // Your real email
+  }
+}, [user, login]);
 
   const completedTasks = tasks.filter(t => t.completed).length;
   const totalTasks = tasks.length;
