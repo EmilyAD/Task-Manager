@@ -11,14 +11,14 @@ const formatDate = (date) => {
 };
 
 const getProgress = (task) => {
+  if (task.completed) return 100;
   if (!task.subtasks || task.subtasks.length === 0) {
-    return task.completed ? 100 : 0;
+    return task.growthStage || 0;
   }
-
   const done = task.subtasks.filter(st => st.done).length;
   return Math.round((done / task.subtasks.length) * 100);
 };
-export default function TaskCard({ task, onComplete, toggleSubtask }) {
+export default function TaskCard({ task, onComplete, toggleSubtask, updateTaskProgress  }) {
   const navigate = useNavigate();
 
   const handleEditClick = () => {
@@ -64,37 +64,33 @@ export default function TaskCard({ task, onComplete, toggleSubtask }) {
         </button>
       </div>
 
-      {/* GROWTH */}
-      <div className="mt-4">
-        <div className="flex justify-between text-sm text-gray-500 dark:text-gray-300 mb-1">
-          <span>Growth</span>
-          <span>{getProgress(task)}%</span>
-        </div>
-
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-          <div
-            className="bg-green-500 h-2 rounded-full"
-style={{ width: `${getProgress(task)}%` }}          />
-        </div>
-      </div>
-
-<div className="mt-3 space-y-1">
-  {task.subtasks?.map(st => (
-    <div key={st.id} className="flex items-center gap-2 text-sm">
-     <input
-  type="checkbox"
-  checked={!!st.done}
-  onClick={(e) => e.stopPropagation()}
-  onChange={(e) => {
-    e.stopPropagation();
-    toggleSubtask(task.id, st.id);
-  }}
-/>
-      <span className={st.done ? "line-through text-gray-400" : ""}>
-        {st.text}
-      </span>
-    </div>
-  ))}
+{/* GROWTH */}
+<div className="mt-4" onClick={e => e.stopPropagation()}>
+  <div className="flex justify-between text-sm text-gray-500 dark:text-gray-300 mb-1">
+    <span>Growth</span>
+    <span>{getProgress(task)}%</span>
+  </div>
+  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
+    <div
+      className="bg-green-500 h-2 rounded-full"
+      style={{ width: `${getProgress(task)}%` }}
+    />
+  </div>
+  {/* Slider - only for tasks without subtasks and not completed */}
+  {(!task.subtasks || task.subtasks.length === 0) && !task.completed && (
+    <input
+      type="range"
+      min="0"
+      max="100"
+      step="5"
+      value={task.growthStage || 0}
+      onChange={(e) => {
+        e.stopPropagation();
+        updateTaskProgress(task.id, Number(e.target.value));
+      }}
+      className="w-full h-1 accent-green-500 cursor-pointer"
+    />
+  )}
 </div>
 
       {/* FOOTER */}

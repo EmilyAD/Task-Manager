@@ -1,9 +1,6 @@
-
-
 export function validateEmail(email) {
   const trimmed = email.trim();
 
-  // simple but good client-side format validation
   const emailRegex =
     /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
 
@@ -42,6 +39,13 @@ export function validatePassword(password) {
   return "";
 }
 
+export function validateLoginPassword(password) {
+  if (!password) {
+    return "Password is required.";
+  }
+  return "";
+}
+
 export function validateConfirmPassword(password, confirmPassword) {
   if (!confirmPassword) {
     return "Please confirm your password.";
@@ -53,5 +57,3 @@ export function validateConfirmPassword(password, confirmPassword) {
 
   return "";
 }
-
-

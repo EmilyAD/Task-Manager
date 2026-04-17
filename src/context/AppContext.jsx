@@ -21,10 +21,11 @@ export function AppProvider({ children }) {
       title: "Complete project proposal",
       description: "Write and submit the Q2 project proposal document",
       category: "Work",
-      dueDate: "Mar 20",
+      dueDate: "2026-03-20",
       growthStage: 75,
       completed: false,
       plantType: "🌱",
+      subtasks: [],
       completedAt: null
     },
     {
@@ -32,10 +33,11 @@ export function AppProvider({ children }) {
       title: "Team meeting preparation",
       description: "Prepare slides for weekly team meeting",
       category: "Work",
-      dueDate: "Mar 17",
+      dueDate: "2026-03-17",
       growthStage: 50,
       completed: false,
       plantType: "🌿",
+      subtasks: [],
       completedAt: null
     },
     {
@@ -43,10 +45,11 @@ export function AppProvider({ children }) {
       title: "Grocery shopping",
       description: "Buy ingredients for meal prep",
       category: "Personal",
-      dueDate: "Mar 16",
+      dueDate: "2026-03-16",
       growthStage: 25,
       completed: false,
       plantType: "🌻",
+      subtasks: [],
       completedAt: null
     }
   ]);
@@ -58,15 +61,13 @@ export function AppProvider({ children }) {
       : { name: 'New User', email: 'user@example.com', profilePicture: null, joinDate: new Date().toISOString(), bio: '' };
   });
 
-  // --- ACTIONS ---
-
   const login = (email) => {
-    const newUser = { 
-      name: 'May', 
-      email: email, 
-      profilePicture: null, 
-      joinDate: new Date().toISOString(), 
-      bio: 'Growing my digital garden! 🌿' 
+    const newUser = {
+      name: 'May',
+      email: email,
+      profilePicture: null,
+      joinDate: new Date().toISOString(),
+      bio: 'Growing my digital garden! 🌿'
     };
     setUser(newUser);
     localStorage.setItem('app_user', JSON.stringify(newUser));
@@ -81,13 +82,24 @@ export function AppProvider({ children }) {
   };
 
   const addTask = (newTask) => {
-    setTasks([...tasks, { ...newTask, id: Date.now(), growthStage: 0, completed: false, completedAt: null }]);
+    const task = {
+      ...newTask,
+      id: Date.now(),
+      growthStage: 0,
+      completed: false,
+      completedAt: null,
+      subtasks: newTask.subtasks || []
+    };
+    setTasks(prev => [...prev, task]);
   };
 
   const updateTask = (id, newData) => {
-    setTasks(tasks.map(task => task.id === id ? { ...task, ...newData } : task));
-  };
+  setTasks(prev => prev.map(task => task.id === id ? { ...task, ...newData } : task));
+};
 
+const updateTaskProgress = (id, growthStage) => {
+  setTasks(prev => prev.map(task => task.id === id ? { ...task, growthStage } : task));
+};
   const completeTask = (id) => {
     setTasks(prev => prev.map(task => task.id === id ? { ...task, completed: !task.completed } : task));
   };
@@ -95,24 +107,27 @@ export function AppProvider({ children }) {
   const toggleSubtask = (taskId, subtaskId) => {
     setTasks(prev => prev.map(task => {
       if (task.id !== taskId) return task;
-      const updatedSubtasks = task.subtasks.map(st => st.id === subtaskId ? { ...st, done: !st.done } : st);
+      const updatedSubtasks = task.subtasks.map(st =>
+        st.id === subtaskId ? { ...st, done: !st.done } : st
+      );
       return { ...task, subtasks: updatedSubtasks, completed: updatedSubtasks.every(st => st.done) };
     }));
   };
 
   return (
     <AppContext.Provider
-      value={{ 
-        tasks, 
-        addTask, 
-        updateTask, 
-        completeTask, 
+      value={{
+        tasks,
+        addTask,
+        updateTask,
+        updateTaskProgress, 
+        completeTask,
         toggleSubtask,
-        theme,         
-        toggleTheme,   
+        theme,
+        toggleTheme,
         user,
-        login,          // This is the key fix!
-        updateProfile  
+        login,
+        updateProfile
       }}
     >
       {children}
