@@ -1,206 +1,171 @@
+import React from 'react';
 import { useApp } from '../context/AppContext';
-import { useMemo } from 'react';
-import { TrendingUp, Award, Target, Zap, Clock, AlertCircle, Calendar } from 'lucide-react';
-import { StatCard } from '../components/StatCard';
+import { TrendingUp, Clock, Target, Zap, Award } from 'lucide-react';
 
 export default function TaskProgress() {
   const { tasks } = useApp();
-const toggleTask = (id) => {
-  setTasks(prev => prev.map(task => 
-    task.id === id 
-      ? { ...task, completed: !task.completed, completedAt: !task.completed ? new Date().toISOString() : null } 
-      : task
-  ));
-};
-  const stats = useMemo(() => {
-    const initial = {
-      completed: 0,
-      total: 0,
-      overdue: 0,
-      growthSum: 0,
-      priorityPoints: 0,
-      earnedPoints: 0,
-      weeklyCount: 0,
-      categoryStats: {},
-    };
 
-    if (!tasks || tasks.length === 0) {
-      return { ...initial, active: 0, avgGrowth: 0, completionRate: 0, weeklyVelocity: 0 };
-    }
+  // --- Dynamic Logic Helpers ---
+  const completedTasks = tasks.filter(t => t.completed).length;
+  const totalTasks = tasks.length;
+  
+  // Overall Garden Growth logic
+  const growthRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  
+  const overdueTasks = tasks.filter(t => 
+    !t.completed && t.dueDate && new Date(t.dueDate) < new Date()
+  ).length;
 
-    const now = new Date();
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(now.getDate() - 7);
+  const focusScore = totalTasks > 0 
+    ? Math.round(((totalTasks - overdueTasks) / totalTasks) * 100) 
+    : 0;
 
-    return tasks.reduce((acc, task) => {
-      acc.total++;
-      const isDone = !!task.completed;
-      
-      //  Completion & Active logic
-      if (isDone) acc.completed++;
-
-      // Overdue Logic
-      if (!isDone && task.dueDate && new Date(task.dueDate) < now) {
-        acc.overdue++;
-      }
-
-      //  Weekly Velocity (Tasks completed in last 7 days)
-      if (isDone && task.completedAt && new Date(task.completedAt) > oneWeekAgo) {
-        acc.weeklyCount++;
-      }
-
-      //  Priority Weighting (High=3, Med=2, Low=1)
-      const weight = task.priority === 'high' ? 3 : task.priority === 'medium' ? 2 : 1;
-      acc.priorityPoints += weight;
-      if (isDone) acc.earnedPoints += weight;
-
-      //  Category Breakdown
-      const cat = task.category || 'General';
-      if (!acc.categoryStats[cat]) acc.categoryStats[cat] = { total: 0, completed: 0 };
-      acc.categoryStats[cat].total++;
-      if (isDone) acc.categoryStats[cat].completed++;
-
-      //  Growth Sum
-      acc.growthSum += isDone ? 100 : (task.growthStage || 0);
-
-      return acc;
-    }, initial);
-  }, [tasks]);
-
-  // Derived calculations
-  const completionRate = stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
-  const avgGrowth = stats.total > 0 ? Math.round(stats.growthSum / stats.total) : 0;
-  const weightedProgress = stats.priorityPoints > 0 ? Math.round((stats.earnedPoints / stats.priorityPoints) * 100) : 0;
+  // --- Dynamic SVG Circle Math ---
+  const radius = 70;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (growthRate / 100) * circumference;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Progress & Statistics</h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-1">
-          Insights into your productivity and garden growth
-        </p>
-      </div>
+    <div className="min-h-screen bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-200 p-6 ">
+      <div className="max-w-6xl mx-auto space-y-8">
+        
+        {/* HEADER SECTION */}
+        <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-8">
+          <div>
+            <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white">Progress & Stats</h1>
+            <p className="text-slate-500 dark:text-slate-400 mt-2">Insights into your productivity and garden growth.</p>
+          </div>
+          <div className="flex gap-2">
+            <span className="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/20 uppercase tracking-widest">
+              Live Sync
+            </span>
+          </div>
+        </header>
 
-      {/* Overview Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Completion Rate" value={`${completionRate}%`} icon={TrendingUp} color="blue" />
-        <StatCard title="Weekly Velocity" value={stats.weeklyCount} icon={Calendar} color="green" />
-        <StatCard title="Overdue Tasks" value={stats.overdue} icon={AlertCircle} color="red" />
-        <StatCard title="Focus Score" value={`${weightedProgress}%`} icon={Zap} color="purple" />
-      </div>
-
-      {/* Detailed Progress Bars */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Efficiency Metrics</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Task Completion Bar */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                <Target size={18} /> Task Volume
-              </span>
-              <span className="font-semibold text-gray-900 dark:text-white">{stats.completed}/{stats.total}</span>
+        {/* TOP LEVEL: DYNAMIC HERO & PULSE */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 bg-white dark:bg-slate-900/50 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 flex items-center justify-between shadow-sm relative overflow-hidden">
+            <div className="relative z-10 text-center md:text-left">
+              <p className="text-slate-500 dark:text-slate-400 font-medium uppercase text-xs tracking-widest mb-1">Average Garden Growth</p>
+              <h2 className="text-6xl font-black text-slate-900 dark:text-white">{growthRate}%</h2>
+              <p className={`text-sm mt-4 flex items-center justify-center md:justify-start gap-2 font-bold ${growthRate > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`}>
+                <TrendingUp size={16} /> {growthRate > 0 ? `+${growthRate}% total progress` : 'No growth yet'}
+              </p>
             </div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-blue-400 to-blue-600 transition-all duration-500" style={{ width: `${completionRate}%` }} />
+            
+            <div className="relative w-32 h-32 md:w-44 md:h-44">
+              <svg className="w-full h-full transform -rotate-90">
+                <circle cx="50%" cy="50%" r={radius} className="stroke-slate-100 dark:stroke-slate-800 fill-none" strokeWidth="12" />
+                <circle 
+                  cx="50%" cy="50%" r={radius} 
+                  className="stroke-emerald-500 fill-none transition-all duration-1000 ease-in-out" 
+                  strokeWidth="12" 
+                  strokeDasharray={circumference} 
+                  strokeDashoffset={strokeDashoffset}
+                  strokeLinecap="round"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center text-4xl">
+                {growthRate >= 100 ? "🌸" : growthRate > 0 ? "🌿" : "🌱"}
+              </div>
             </div>
           </div>
 
-          {/* Weighted Priority Bar */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                <Award size={18} /> Priority Impact
-              </span>
-              <span className="font-semibold text-gray-900 dark:text-white">{weightedProgress}%</span>
-            </div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-500" style={{ width: `${weightedProgress}%` }} />
-            </div>
+          <div className="space-y-4">
+            <StatCard icon={<Target size={18} />} label="Completion Rate" value={`${growthRate}%`} colorClass="text-blue-600 dark:text-blue-400" bgClass="bg-blue-50 dark:bg-slate-900/60" />
+            <StatCard icon={<Clock size={18} />} label="Overdue Tasks" value={overdueTasks} colorClass={overdueTasks > 0 ? "text-rose-600 dark:text-rose-400" : "text-slate-400"} bgClass="bg-rose-50 dark:bg-slate-900/60" />
+            <StatCard icon={<Zap size={18} />} label="Focus Score" value={`${focusScore}%`} colorClass="text-purple-600 dark:text-purple-400" bgClass="bg-purple-50 dark:bg-slate-900/60" />
           </div>
         </div>
-      </div>
 
-      {/* Two Column Layout for Categories and Growth */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Category Breakdown */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Category Health</h2>
-          <div className="space-y-5">
-            {Object.entries(stats.categoryStats).length > 0 ? (
-              Object.entries(stats.categoryStats).map(([category, data]) => {
-                const percentage = Math.round((data.completed / data.total) * 100);
-                return (
-                  <div key={category}>
-                    <div className="flex justify-between mb-1.5 text-sm">
-                      <span className="font-medium text-gray-700 dark:text-gray-300">{category}</span>
-                      <span className="text-gray-500">{data.completed}/{data.total} tasks</span>
+        {/* MIDDLE LEVEL: DYNAMIC TASK BREAKDOWN */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <div className="lg:col-span-8 bg-white dark:bg-slate-900/40 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-2">
+              Individual Task Progress <span className="text-xs font-normal text-slate-500">({tasks.length})</span>
+            </h3>
+            
+            <div className="space-y-6">
+              {tasks.length > 0 ? (
+                tasks.slice(0, 5).map((task) => {
+                  const totalSubtasks = task.subtasks?.length ?? 0;
+                  const doneSubtasks = task.subtasks?.filter(st => st.completed ?? st.done).length ?? 0;
+
+                  let displayWidth;
+                  if (task.completed) {
+                    displayWidth = 100;
+                  } else if (totalSubtasks > 0) {
+                    displayWidth = Math.round((doneSubtasks / totalSubtasks) * 100);
+                  } else {
+                    displayWidth = task.growthStage || 0; 
+                  }
+
+                  return (
+                    <div key={task.id} className="space-y-2">
+                      <div className="flex justify-between text-sm font-medium">
+                        <span className="text-slate-700 dark:text-slate-200">
+                          {task.completed ? '✅' : '🌿'} {task.title}
+                        </span>
+                        <span className="text-slate-400">{displayWidth}%</span>
+                      </div>
+                      <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full transition-all duration-700 ease-out ${
+                            task.completed ? 'bg-emerald-500' : 'bg-emerald-400'
+                          }`} 
+                          style={{ width: `${displayWidth}%` }} 
+                        />
+                      </div>
                     </div>
-                    <div className="h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div className="h-full bg-yellow-500" style={{ width: `${percentage}%` }} />
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <p className="text-gray-500 text-sm italic">No categories tracked yet.</p>
-            )}
+                  );
+                })
+              ) : (
+                <div className="text-center py-10 text-slate-400 italic">No tasks found.</div>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Growth Tracking */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 flex flex-col justify-center text-center">
-            <div className="mx-auto bg-green-100 dark:bg-green-900/30 p-4 rounded-full mb-4">
-                <Clock className="text-green-600 dark:text-green-400" size={32} />
+          {/* DYNAMIC MILESTONES */}
+          <div className="lg:col-span-4 bg-white dark:bg-slate-900/40 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+              <Award className="text-amber-500" size={20} /> Milestones
+            </h3>
+            <div className="space-y-4">
+              <MilestoneItem label="First Seed" desc="Created your first task" active={totalTasks > 0} icon="🌱" />
+              <MilestoneItem label="Growing Strong" desc="5 Tasks completed" active={completedTasks >= 5} icon="🌿" />
+              <MilestoneItem label="In Full Bloom" desc="10 Tasks completed" active={completedTasks >= 10} icon="🌸" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{avgGrowth}%</h2>
-            <p className="text-gray-600 dark:text-gray-400">Average Garden Growth</p>
-            <div className="mt-6 h-3 bg-gray-200 dark:bg-gray-700 rounded-full w-full max-w-xs mx-auto overflow-hidden">
-                <div className="h-full bg-green-500" style={{ width: `${avgGrowth}%` }} />
-            </div>
-        </div>
-      </div>
-
-      {/* Achievements */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Milestones</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <AchievementCard 
-            emoji="🌱" 
-            title="First Seed" 
-            desc="Created a task" 
-            unlocked={stats.total >= 1} 
-          />
-          <AchievementCard 
-            emoji="🌿" 
-            title="Growing Strong" 
-            desc="Complete 5 tasks" 
-            unlocked={stats.completed >= 5} 
-          />
-          <AchievementCard 
-            emoji="🌸" 
-            title="In Full Bloom" 
-            desc="Complete 10 tasks" 
-            unlocked={stats.completed >= 10} 
-          />
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-
-function AchievementCard({ emoji, title, desc, unlocked }) {
+// --- Sub-Components ---
+function StatCard({ icon, label, value, colorClass, bgClass }) {
   return (
-    <div className={`p-4 rounded-lg border transition-all ${
-      unlocked 
-        ? 'bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/20 dark:to-emerald-800/20 border-green-200 dark:border-green-800 opacity-100' 
-        : 'bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 opacity-40 grayscale'
+    <div className={`${bgClass} p-5 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center gap-4 transition-transform hover:scale-[1.02]`}>
+      <div className={`p-3 rounded-xl bg-white dark:bg-slate-800 ${colorClass} shadow-sm`}>{icon}</div>
+      <div>
+        <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">{label}</p>
+        <p className={`text-xl font-black ${colorClass}`}>{value}</p>
+      </div>
+    </div>
+  );
+}
+
+function MilestoneItem({ label, desc, active, icon }) {
+  return (
+    <div className={`flex items-start gap-4 p-4 rounded-2xl border transition-all duration-500 ${
+      active ? 'bg-emerald-500/5 border-emerald-500/10' : 'opacity-20 grayscale border-transparent'
     }`}>
-      <div className="text-3xl mb-2">{emoji}</div>
-      <h3 className="font-semibold text-gray-900 dark:text-white">{title}</h3>
-      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{desc}</p>
+      <div className="text-2xl">{icon}</div>
+      <div>
+        <h4 className="text-sm font-bold text-slate-900 dark:text-white">{label}</h4>
+        <p className="text-xs text-slate-500">{desc}</p>
+      </div>
     </div>
   );
 }

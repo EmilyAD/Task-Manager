@@ -38,7 +38,7 @@ export default function DashboardLayout() {
       )}
 
       {/* Main Content */}
-      <div className="p-6 pt-6 lg:pt-6 max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto ">
         <Outlet />
       </div>
 
