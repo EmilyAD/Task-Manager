@@ -26,13 +26,13 @@ export default function TaskProgress() {
   const strokeDashoffset = circumference - (growthRate / 100) * circumference;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-200 p-6 ">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-200  ">
+      <div className="max-w-7xl mx-auto space-y-6 p-6">
         
         {/* HEADER SECTION */}
         <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-8">
           <div>
-            <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white">Progress & Stats</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white leading-tight">Progress & Stats</h1>
             <p className="text-slate-500 dark:text-slate-400 mt-2">Insights into your productivity and garden growth.</p>
           </div>
           <div className="flex gap-2">
@@ -47,7 +47,7 @@ export default function TaskProgress() {
           <div className="lg:col-span-2 bg-white dark:bg-slate-900/50 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 flex items-center justify-between shadow-sm relative overflow-hidden">
             <div className="relative z-10 text-center md:text-left">
               <p className="text-slate-500 dark:text-slate-400 font-medium uppercase text-xs tracking-widest mb-1">Average Garden Growth</p>
-              <h2 className="text-6xl font-black text-slate-900 dark:text-white">{growthRate}%</h2>
+              <h2 className="text-5xl font-bold text-slate-900 dark:text-white">{growthRate}%</h2>
               <p className={`text-sm mt-4 flex items-center justify-center md:justify-start gap-2 font-bold ${growthRate > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`}>
                 <TrendingUp size={16} /> {growthRate > 0 ? `+${growthRate}% total progress` : 'No growth yet'}
               </p>

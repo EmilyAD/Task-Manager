@@ -107,7 +107,7 @@ export function Profile() {
   return (
     /* Removed transition-colors to ensure background swaps instantly */
     <div className="min-h-screen bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-200 p-2">
-      <div className="max-w-6xl mx-auto space-y-2">
+      <div className="max-w-7xl mx-auto space-y-6 p-6">
         <header>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white leading-tight">Profile</h1>
           <p className="text-gray-600 dark:text-gray-400">Manage your account and preferences</p>
