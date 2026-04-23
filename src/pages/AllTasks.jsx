@@ -356,7 +356,7 @@ export default function AllTasks({ preview = false }) {
       `}</style>
 
       <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-        <div className="max-w-7xl mx-auto space-y-6">
+        <div className="max-w-7xl mx-auto space-y-6 p-6">
 
           {/* HEADER */}
           <div>
@@ -365,7 +365,7 @@ export default function AllTasks({ preview = false }) {
           </div>
 
           {/* SEARCH + FILTER */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-5 border border-gray-200 dark:border-gray-700 space-y-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-3 border border-gray-200 dark:border-gray-700 space-y-4">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"/>
@@ -404,7 +404,7 @@ export default function AllTasks({ preview = false }) {
             ))}
           </div>
 
-          <div className="space-y-6 mt-16">
+          <div className="space-y-8 mt-20">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-bold">My Garden</h1>
