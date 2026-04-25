@@ -42,16 +42,32 @@ export default function AddEditTask() {
     if (existingTask) {
       setFormData({
         ...existingTask,
-        subtasks: existingTask.subtasks || [] // ✅ FIX HERE
+        subtasks: existingTask.subtasks || []
       });
     }
   }, [existingTask]);
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.title.trim()) newErrors.title = "Title is required";
-    if (!formData.description.trim()) newErrors.description = "Description is required";
-    if (!formData.dueDate) newErrors.dueDate = "Due date is required";
+
+    if (!formData.title.trim()) {
+      newErrors.title = "Title is required";
+    }
+
+    // ✅ Description is now optional (removed validation)
+
+    if (!formData.dueDate) {
+      newErrors.dueDate = "Due date is required";
+    } else {
+      const selectedDate = new Date(formData.dueDate);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate < today) {
+        newErrors.dueDate = "Due date cannot be in the past";
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -77,7 +93,6 @@ export default function AddEditTask() {
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
-      {/* BACK */}
       <Link
         to="/tasks"
         className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
@@ -85,7 +100,6 @@ export default function AddEditTask() {
         <ArrowLeft className="w-4 h-4" /> Back to tasks
       </Link>
 
-      {/* HEADER */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           {isEditing ? "Edit Task" : "Create New Task"}
@@ -95,7 +109,6 @@ export default function AddEditTask() {
         </p>
       </div>
 
-      {/* FORM */}
       <form
         onSubmit={handleSubmit}
         className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-sm border border-gray-200 dark:border-gray-700 space-y-8"
@@ -115,19 +128,16 @@ export default function AddEditTask() {
           {errors.title && <p className="text-sm text-red-500 mt-1">{errors.title}</p>}
         </div>
 
-        {/* DESCRIPTION */}
+        {/* DESCRIPTION (now optional) */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">Description *</label>
+          <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">Description</label>
           <textarea
             rows={4}
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className={`w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border ${
-              errors.description ? "border-red-500" : "border-gray-200 dark:border-gray-700"
-            } rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 dark:text-white`}
+            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 dark:text-white"
             placeholder="Describe your task..."
           />
-          {errors.description && <p className="text-sm text-red-500 mt-1">{errors.description}</p>}
         </div>
 
         {/* SUBTASKS */}
@@ -205,38 +215,43 @@ export default function AddEditTask() {
             type="date"
             value={formData.dueDate}
             onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border rounded-xl"
+            className={`w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border ${
+              errors.dueDate ? "border-red-500" : "border-gray-200 dark:border-gray-700"
+            } rounded-xl`}
           />
+          {errors.dueDate && (
+            <p className="text-sm text-red-500 mt-1">{errors.dueDate}</p>
+          )}
         </div>
 
-{/* PLANT TYPES */}
-<div>
-  <label className="block text-sm font-medium mb-3 text-gray-900 dark:text-white">
-    Choose Your Plant
-  </label>
+        {/* PLANTS */}
+        <div>
+          <label className="block text-sm font-medium mb-3 text-gray-900 dark:text-white">
+            Choose Your Plant
+          </label>
 
-  <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 sm:gap-4">
-    {plantTypes.map((plant) => (
-      <button
-        key={plant.emoji}
-        type="button"
-        onClick={() => setFormData({ ...formData, plantType: plant.emoji })}
-        className={`flex flex-col items-center justify-center rounded-xl border-2 transition 
-          ${
-            formData.plantType === plant.emoji
-              ? "border-green-500 bg-green-50 dark:bg-green-800"
-              : "border-gray-200 hover:border-gray-300 dark:border-gray-700"
-          } 
-          text-gray-900 dark:text-white h-20 sm:h-28`}
-      >
-        <span className="text-2xl sm:text-3xl">{plant.emoji}</span>
-        <span className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 mt-1 text-center px-1">
-          {plant.name}
-        </span>
-      </button>
-    ))}
-  </div>
-</div>
+          <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 sm:gap-4">
+            {plantTypes.map((plant) => (
+              <button
+                key={plant.emoji}
+                type="button"
+                onClick={() => setFormData({ ...formData, plantType: plant.emoji })}
+                className={`flex flex-col items-center justify-center rounded-xl border-2 transition 
+                  ${
+                    formData.plantType === plant.emoji
+                      ? "border-green-500 bg-green-50 dark:bg-green-800"
+                      : "border-gray-200 hover:border-gray-300 dark:border-gray-700"
+                  } 
+                  text-gray-900 dark:text-white h-20 sm:h-28`}
+              >
+                <span className="text-2xl sm:text-3xl">{plant.emoji}</span>
+                <span className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 mt-1 text-center px-1">
+                  {plant.name}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* BUTTONS */}
         <div className="flex gap-4 pt-4">

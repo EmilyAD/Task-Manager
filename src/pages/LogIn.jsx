@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import { validateEmail, validatePassword } from "../utils/validators";
 import { useApp } from "../context/AppContext";
 
@@ -7,6 +8,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useApp();
 
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
@@ -59,9 +61,9 @@ export default function Login() {
         </p>
 
         <div className="flex gap-6 md:gap-8 my-10 md:my-14 text-[2.5rem] md:text-[3rem]">
-          <span className="plant-icon">🌱</span>
-          <span className="plant-icon">🌸</span>
-          <span className="plant-icon">🌻</span>
+          <span>🌱</span>
+          <span>🌸</span>
+          <span>🌻</span>
         </div>
 
         <form className="w-full max-w-[580px] flex flex-col" onSubmit={handleSubmit} noValidate>
@@ -78,17 +80,25 @@ export default function Login() {
           {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
 
           <label className="text-sm font-bold text-[#23311f] dark:text-white mt-6">Password</label>
-          <input
-            name="password"
-            type="password"
-            placeholder="••••••••"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full border-0 border-b border-gray-300 dark:border-gray-600 bg-transparent dark:bg-transparent text-[#6d7187] dark:text-white placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a] py-3 outline-none focus:border-[#43A047]"
-          />
+          <div className="relative">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="••••••••"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full border-0 border-b border-gray-300 dark:border-gray-600 bg-transparent dark:bg-transparent text-[#6d7187] dark:text-white placeholder:text-[#7a7f95] dark:placeholder:text-[#9aa59a] py-3 outline-none focus:border-[#43A047] pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-0 top-3 text-gray-400 hover:text-gray-600"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
 
-          {/* API error message */}
           {apiError && (
             <p className="text-red-500 text-sm mt-3 text-center bg-red-50 dark:bg-red-900/20 py-2 px-3 rounded-lg">
               {apiError}
