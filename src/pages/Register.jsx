@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useApp } from "../context/AppContext";
 
 import {
   
@@ -7,7 +8,7 @@ import {
   validatePassword,
   validateConfirmPassword,
 } from "../utils/validators";
-import { useApp } from "../context/AppContext"; 
+
 
 const plantOptions = [
   {
@@ -32,9 +33,9 @@ const plantOptions = [
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
-const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
-  const { updateProfile } = useApp();
+  const { updateProfile, register, login } = useApp();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -45,7 +46,8 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   });
 
   const [errors, setErrors] = useState({});
-
+  const [apiError, setApiError] = useState("");
+  const [loading, setLoading] = useState(false);
   function handleChange(event) {
     const { name, value } = event.target;
 
@@ -89,18 +91,26 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     return Object.keys(newErrors).length === 0;
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
   e.preventDefault();
-
   if (!validateForm()) return;
-
-  updateProfile({
-    name: formData.name,
-    email: formData.email,
-    joinDate: new Date().toISOString(),
-  });
-
-  navigate("/Profile"); 
+  setApiError("");
+  setLoading(true);
+  try {
+    await register(formData.email, formData.password);
+    // After registering, log them in automatically
+    await login(formData.email, formData.password);
+    updateProfile({
+      name: formData.name,
+      email: formData.email,
+      joinDate: new Date().toISOString(),
+    });
+    navigate("/tasks");
+  } catch (err) {
+    setApiError(err.response?.data?.message || "Registration failed. Try again.");
+  } finally {
+    setLoading(false);
+  }
 }
 
   return (
@@ -252,18 +262,17 @@ text-[#6d7187] dark:text-[#b9c2b0]">
               <p className="text-red-500 text-sm mt-3">{errors.starterPlant}</p>
             )}
           </div>
-
+          {apiError && (
+           <p className="text-red-500 text-sm mt-3 text-center bg-red-50 dark:bg-red-900/20 py-2 px-3 rounded-lg">
+          {apiError}
+          </p>
+          )}
           <button
             type="submit"
-            
-           className="mt-10 w-full 
-            bg-[#43A047] dark:bg-[#8fbf7a] 
-            text-white dark:text-[#010513] 
-            py-4 rounded-xl font-bold 
-            hover:opacity-90 transition"
->
-          
-            Create Account
+            disabled={loading}
+            className="mt-10 w-full bg-[#43A047] dark:bg-[#8fbf7a] text-white dark:text-[#010513] py-4 rounded-xl font-bold hover:opacity-90 transition disabled:opacity-60"
+          >
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 

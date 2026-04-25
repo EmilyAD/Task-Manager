@@ -301,7 +301,7 @@ function GrassBlade({ x, h = 20, lean = 0 }) {
 }
 
 export default function AllTasks({ preview = false }) {
-  const { tasks, completeTask, toggleSubtask, updateTaskProgress } = useApp();
+  const { tasks, completeTask, toggleSubtask, updateTaskProgress, loading, deleteTask } = useApp();
 
   const completedTasks = tasks.filter(t => t.completed);
 
@@ -395,9 +395,9 @@ export default function AllTasks({ preview = false }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredTasks.map(task => (
               <TaskCard
-                key={task.id}
+                key={task._id || task.id}
                 task={task}
-                onComplete={() => completeTask(task.id)}
+                onComplete={() => completeTask(task._id || task.id)}
                 toggleSubtask={toggleSubtask}
                 updateTaskProgress={updateTaskProgress}
               />
@@ -469,10 +469,10 @@ export default function AllTasks({ preview = false }) {
                       : total > 0 ? done / total
                       : (task.growthStage || 0) / 100;
                     return (
-                      <div key={task.id} className="flex flex-col items-center group"
+                      <div key={task._id || task.id} className="flex flex-col items-center group"
                         style={{ flex:"0 0 auto", marginRight:"clamp(4px, 2vw, 24px)", position:"relative" }}
                         title={`${task.title} — ${Math.round(progress*100)}%`}>
-                        <GrowingFlower plantType={task.plantType} progress={progress} seed={task.id}/>
+                        <GrowingFlower plantType={task.plantType} progress={progress} seed={task._id || task.id}/>
                         {total > 0 && (
                           <div className="flex gap-0.5 mt-1 relative z-10">
                             {Array.from({length:total}).map((_,j) => (

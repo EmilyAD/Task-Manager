@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AppProvider } from "./context/AppContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 import Home from "./pages/Home";

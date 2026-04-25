@@ -21,7 +21,7 @@ const categories = ["Work", "Personal", "Learning", "Health", "Finance", "Other"
 export default function AddEditTask() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { tasks, addTask, updateTask, darkMode } = useApp();
+  const { addTask, updateTask } = useApp();
 
   const existingTask = location.state?.task || null;
   const isEditing = !!existingTask;
@@ -36,7 +36,8 @@ export default function AddEditTask() {
   });
 
   const [errors, setErrors] = useState({});
-
+  const [apiError, setApiError] = useState("");   // backend error
+  const [loading, setLoading] = useState(false); 
   useEffect(() => {
     if (existingTask) {
       setFormData({
@@ -55,18 +56,24 @@ export default function AddEditTask() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validate()) return;
+  setApiError("");
+  setLoading(true);
+  try {
     if (isEditing && existingTask) {
-      updateTask(existingTask.id, formData);
+      await updateTask(existingTask._id || existingTask.id, formData);
     } else {
-      addTask(formData);
+      await addTask(formData);
     }
-
     navigate("/tasks");
-  };
+  } catch (err) {
+    setApiError(err.response?.data?.message || "Failed to save task. Try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
@@ -242,10 +249,11 @@ export default function AddEditTask() {
           </button>
           <button
             type="submit"
-            className="flex-1 flex items-center justify-center gap-2 py-3 bg-green-600 text-white rounded-xl"
+            disabled={loading}
+            className="flex-1 flex items-center justify-center gap-2 py-3 bg-green-600 text-white rounded-xl disabled:opacity-60"
           >
-            <Save className="w-5 h-5" />
-            {isEditing ? "Update Task" : "Create Task"}
+          <Save className="w-5 h-5" />
+            {loading ? "Saving..." : isEditing ? "Update Task" : "Create Task"}
           </button>
         </div>
       </form>

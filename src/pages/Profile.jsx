@@ -7,42 +7,35 @@ import { useNavigate } from 'react-router';
 const calculateStreak = (tasks) => {
   if (!tasks || tasks.length === 0) return 0;
 
-  const completedDates = [...new Set(tasks
-    .filter(t => t.completed && t.completedAt)
-    .map(t => new Date(t.completedAt).toISOString().split('T')[0])
+  const completedWithDates = tasks.filter(t => t.completed && t.completedAt);
+  if (completedWithDates.length === 0) return 0;
+
+  const completedDates = [...new Set(
+    completedWithDates.map(t => new Date(t.completedAt).toISOString().split('T')[0])
   )].sort((a, b) => new Date(b) - new Date(a));
 
-  if (completedDates.length === 0) return 0;
+  const today = new Date().toISOString().split('T')[0];
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
 
-  let streak = 0;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  // Streak must start from today or yesterday
+  if (completedDates[0] !== today && completedDates[0] !== yesterday) return 0;
 
-  const lastCompletedDate = new Date(completedDates[0]);
-  lastCompletedDate.setHours(0, 0, 0, 0);
-
-  const diffInDays = Math.floor((today - lastCompletedDate) / (1000 * 60 * 60 * 24));
-  if (diffInDays > 1) return 0;
-
-  for (let i = 0; i < completedDates.length; i++) {
-    const currentEntry = new Date(completedDates[i]);
-    currentEntry.setHours(0, 0, 0, 0);
-    
-    const expectedDate = new Date(lastCompletedDate);
-    expectedDate.setDate(lastCompletedDate.getDate() - i);
-    expectedDate.setHours(0, 0, 0, 0);
-
-    if (currentEntry.getTime() === expectedDate.getTime()) {
+  let streak = 1;
+  for (let i = 1; i < completedDates.length; i++) {
+    const current = new Date(completedDates[i - 1]);
+    const prev = new Date(completedDates[i]);
+    const diff = Math.round((current - prev) / 86400000);
+    if (diff === 1) {
       streak++;
     } else {
-      break; 
+      break;
     }
   }
   return streak;
 };
 
 export function Profile() {
-  const { tasks, theme, toggleTheme, user, updateProfile } = useApp();
+  const { tasks, theme, toggleTheme, user, updateProfile, logout } = useApp();
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   
@@ -81,7 +74,7 @@ export function Profile() {
     return taskDate > sevenDaysAgo;
   });
 
-  const isPerfectWeek = tasksThisWeek.length >= 7;
+  const isPerfectWeek = tasksThisWeek.length >= 7 && tasksThisWeek.length > 0;
 
   const handleSave = () => {
     if (!userData.name.trim()) return alert("Name is a required field!");
@@ -90,7 +83,8 @@ export function Profile() {
   };
 
   const handleLogout = () => {
-    navigate('/login');
+  logout();
+  navigate('/login');
   };
 
   const handleFileChange = (event) => {
@@ -189,7 +183,7 @@ export function Profile() {
                       </div>
                       <div className="flex items-center gap-1.5 text-sm">
                         <Calendar className="w-4 h-4 flex-shrink-0 text-emerald-600" />
-                        <span>Joined {new Date(userData.joinDate || Date.now()).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
+                        <span>Joined {userData.joinDate ? new Date(userData.joinDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : "Recently"}</span>
                       </div>
                     </div>
                   </div>
@@ -271,7 +265,13 @@ function StatItem({ label, value, color, icon }) {
     amber: 'bg-amber-50 dark:bg-amber-900/10 border-amber-100 dark:border-amber-800/30 icon-bg-amber-500',
     blue: 'bg-blue-50 dark:bg-blue-900/10 border-blue-100 dark:border-blue-800/30 icon-bg-blue-600'
   };
-
+  if (loading) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#020617]">
+      <p className="text-gray-500 text-lg">Loading your garden... 🌱</p>
+    </div>
+  );
+}
   return (
     <div className={`${colors[color].split('icon-bg')[0]} p-4 rounded-2xl border`}>
       <div className={`w-8 h-8 ${color === 'emerald' ? 'bg-emerald-600' : color === 'purple' ? 'bg-purple-600' : color === 'amber' ? 'bg-amber-500' : 'bg-blue-600'} rounded-lg flex items-center justify-center mb-3 text-white text-sm`}>
