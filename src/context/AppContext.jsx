@@ -47,9 +47,9 @@ export function AppProvider({ children }) {
     setIsLoggedIn(true);
   };
 
-  const register = async (email, password) => {
-    await registerUser(email, password);
-  };
+  const register = async (email, password, name) => {
+  await registerUser(email, password, name);
+};
 
   const logout = () => {
     logoutUser();

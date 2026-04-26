@@ -35,7 +35,7 @@ const calculateStreak = (tasks) => {
 };
 
 export function Profile() {
-  const { tasks, theme, toggleTheme, user, updateProfile, logout } = useApp();
+  const { tasks, theme, toggleTheme, user, updateProfile, logout, loading } = useApp();
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   
@@ -216,10 +216,11 @@ export function Profile() {
 
             {/* STATS GRID */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <StatItem label="Tasks Done" value={completedTasks} color="emerald" icon={<Award className="w-4 h-4 text-white" />} />
-              <StatItem label="Plants Grown" value={completedTasks} color="purple" icon="🌱" />
-              <StatItem label="Day Streak" value={currentStreak} color="amber" icon="🔥" />
-              <StatItem label="Success Rate" value={`${completionRate}%`} color="blue" icon="📊" />
+              
+              <StatItem label="Tasks Done" value={completedTasks} color="emerald" icon={<Award className="w-4 h-4 text-white" />} loading={loading} />
+              <StatItem label="Plants Grown" value={completedTasks} color="purple" icon="🌱" loading={loading} />
+              <StatItem label="Day Streak" value={currentStreak} color="amber" icon="🔥" loading={loading} />
+              <StatItem label="Success Rate" value={`${completionRate}%`} color="blue" icon="📊" loading={loading} />
             </div>
           </div>
 
@@ -258,7 +259,7 @@ export function Profile() {
 }
 
 // Sub-component for Stats to keep the main code clean
-function StatItem({ label, value, color, icon }) {
+function StatItem({ label, value, color, icon, loading }) {
   const colors = {
     emerald: 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-100 dark:border-emerald-800/30 icon-bg-emerald-600',
     purple: 'bg-purple-50 dark:bg-purple-900/10 border-purple-100 dark:border-purple-800/30 icon-bg-purple-600',

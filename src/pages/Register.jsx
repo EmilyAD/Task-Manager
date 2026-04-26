@@ -61,7 +61,7 @@ export default function Register() {
     setApiError("");
     setLoading(true);
     try {
-      await register(formData.email, formData.password);
+      await register(formData.email, formData.password, formData.name);
       await login(formData.email, formData.password);
       updateProfile({
         name: formData.name,
