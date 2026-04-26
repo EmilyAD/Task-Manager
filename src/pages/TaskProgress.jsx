@@ -102,7 +102,7 @@ export default function TaskProgress() {
                   }
 
                   return (
-                    <div key={task.id} className="space-y-2">
+                    <div key={task._id} className="space-y-2">
                       <div className="flex justify-between text-sm font-medium">
                         <span className="text-slate-700 dark:text-slate-200">
                           {task.completed ? '✅' : '🌿'} {task.title}

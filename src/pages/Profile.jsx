@@ -88,15 +88,17 @@ export function Profile() {
   };
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUserData({ ...userData, profilePicture: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const file = event.target.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const newPicture = reader.result;
+      setUserData(prev => ({ ...prev, profilePicture: newPicture }));
+      updateProfile({ profilePicture: newPicture });
+    };
+    reader.readAsDataURL(file);
+  }
+};
 
   return (
     /* Removed transition-colors to ensure background swaps instantly */
