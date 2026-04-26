@@ -457,11 +457,7 @@ export default function AllTasks({ preview = false }) {
                 ))}
               </svg>
 
-              {tasks.length === 0 && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <p className="text-emerald-700 text-sm font-medium opacity-70">Add tasks to start your garden 🌱</p>
-                </div>
-              )}
+              
 
               {/* PLANTS ROW - scrollable */}
               <div className="absolute bottom-0 left-0 right-0 overflow-x-auto"
