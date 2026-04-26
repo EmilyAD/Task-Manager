@@ -1,6 +1,6 @@
 import { Circle, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
 const formatDate = (date) => {
   if (!date) return "";
 
@@ -9,7 +9,6 @@ const formatDate = (date) => {
     day: "numeric",
   });
 };
-
 const getProgress = (task) => {
   if (task.completed) return 100;
   if (!task.subtasks || task.subtasks.length === 0) {
@@ -20,6 +19,7 @@ const getProgress = (task) => {
 };
 export default function TaskCard({ task, onComplete, toggleSubtask, updateTaskProgress  }) {
   const navigate = useNavigate();
+  const [localProgress, setLocalProgress] = useState(task.growthStage || 0);
 
   const handleEditClick = () => {
     navigate("/add-task", { state: { task } });
@@ -65,7 +65,7 @@ export default function TaskCard({ task, onComplete, toggleSubtask, updateTaskPr
       </div>
 
 {/* GROWTH */}
-<div className="mt-4" onClick={e => e.stopPropagation()}>
+<div className="mt-4" onClick={e => e.stopPropagation()} onMouseDown={e => e.stopPropagation()} onTouchStart={e => e.stopPropagation()}>
   <div className="flex justify-between text-sm text-gray-500 dark:text-gray-300 mb-1">
     <span>Growth</span>
     <span>{getProgress(task)}%</span>
@@ -79,17 +79,16 @@ export default function TaskCard({ task, onComplete, toggleSubtask, updateTaskPr
   {/* Slider - only for tasks without subtasks and not completed */}
   {(!task.subtasks || task.subtasks.length === 0) && !task.completed && (
     <input
-      type="range"
-      min="0"
-      max="100"
-      step="5"
-      value={task.growthStage || 0}
-      onChange={(e) => {
-        e.stopPropagation();
-        updateTaskProgress(task._id, Number(e.target.value));
-      }}
-      className="w-full h-1 accent-green-500 cursor-pointer"
-    />
+  type="range"
+  min="0"
+  max="100"
+  step="5"
+  value={localProgress}
+  onChange={(e) => { e.stopPropagation(); setLocalProgress(Number(e.target.value)); }}
+  onMouseUp={(e) => { e.stopPropagation(); updateTaskProgress(task._id, Number(e.target.value)); }}
+  onTouchEnd={(e) => { e.stopPropagation(); updateTaskProgress(task._id, Number(e.target.value)); }}
+  className="w-full h-1 accent-green-500 cursor-pointer"
+/>
   )}
 </div>
 

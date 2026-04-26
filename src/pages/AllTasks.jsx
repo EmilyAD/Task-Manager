@@ -302,7 +302,13 @@ function GrassBlade({ x, h = 20, lean = 0 }) {
 
 export default function AllTasks({ preview = false }) {
   const { tasks, completeTask, toggleSubtask, updateTaskProgress, loading, deleteTask } = useApp();
-
+  if (loading) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
+      <p className="text-gray-500 text-lg">Loading your tasks... 🌱</p>
+    </div>
+  );
+  }
   const completedTasks = tasks.filter(t => t.completed);
 
   const plantsByCategory = completedTasks.reduce((acc, task) => {

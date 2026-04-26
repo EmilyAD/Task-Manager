@@ -83,14 +83,22 @@ export function AppProvider({ children }) {
   };
 
   const updateTaskProgress = async (id, growthStage) => {
-  const updated = await apiUpdateTask(id, { growthStage });
-  setTasks(prev => prev.map(t => (t._id === id || t.id === id) ? updated : t));
+  setTasks(prev => prev.map(t => (t._id === id || t.id === id) ? { ...t, growthStage } : t));
+  try {
+    await apiUpdateTask(id, { growthStage });
+  } catch (err) {
+    console.error("Failed to update progress:", err);
+  }
 };
-
-  const completeTask = async (id) => {
+const completeTask = async (id) => {
   const task = tasks.find(t => t._id === id || t.id === id);
-  const updated = await apiUpdateTask(id, { completed: !task.completed });
+  const updated = { ...task, completed: !task.completed };
   setTasks(prev => prev.map(t => (t._id === id || t.id === id) ? updated : t));
+  try {
+    await apiUpdateTask(id, { completed: !task.completed });
+  } catch (err) {
+    console.error("Failed to complete task:", err);
+  }
 };
 
   const toggleSubtask = async (taskId, subtaskId) => {
