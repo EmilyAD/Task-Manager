@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-import { validateEmail, validatePassword } from "../utils/validators";
+import { validateEmail, validateLoginPassword } from "../utils/validators";
 import { useApp } from "../context/AppContext";
 
 export default function Login() {
@@ -23,9 +23,9 @@ export default function Login() {
     const newErrors = {};
     const emailError = validateEmail(formData.email);
     if (emailError) newErrors.email = emailError;
-    const passwordError = validatePassword(formData.password);
+    const passwordError = validateLoginPassword(formData.password);
     if (passwordError) newErrors.password = passwordError;
-    setErrors(newErrors);
+   setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
 
