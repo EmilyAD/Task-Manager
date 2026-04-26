@@ -82,23 +82,28 @@ export function AppProvider({ children }) {
     setTasks(prev => prev.filter(t => t._id !== id && t.id !== id));
   };
 
-  const updateTaskProgress = (id, growthStage) => {
-    setTasks(prev => prev.map(t => (t._id === id || t.id === id) ? { ...t, growthStage } : t));
-  };
+  const updateTaskProgress = async (id, growthStage) => {
+  const updated = await apiUpdateTask(id, { growthStage });
+  setTasks(prev => prev.map(t => (t._id === id || t.id === id) ? updated : t));
+};
 
-  const completeTask = (id) => {
-    setTasks(prev => prev.map(t => (t._id === id || t.id === id) ? { ...t, completed: !t.completed } : t));
-  };
+  const completeTask = async (id) => {
+  const task = tasks.find(t => t._id === id || t.id === id);
+  const updated = await apiUpdateTask(id, { completed: !task.completed });
+  setTasks(prev => prev.map(t => (t._id === id || t.id === id) ? updated : t));
+};
 
-  const toggleSubtask = (taskId, subtaskId) => {
-    setTasks(prev => prev.map(task => {
-      if (task._id !== taskId && task.id !== taskId) return task;
-      const updatedSubtasks = task.subtasks.map(st =>
-        st.id === subtaskId ? { ...st, done: !st.done } : st
-      );
-      return { ...task, subtasks: updatedSubtasks, completed: updatedSubtasks.every(st => st.done) };
-    }));
-  };
+  const toggleSubtask = async (taskId, subtaskId) => {
+  const task = tasks.find(t => t._id === taskId || t.id === taskId);
+  const updatedSubtasks = task.subtasks.map(st =>
+    st.id === subtaskId ? { ...st, done: !st.done } : st
+  );
+  const updated = await apiUpdateTask(taskId, { 
+    subtasks: updatedSubtasks, 
+    completed: updatedSubtasks.every(st => st.done) 
+  });
+  setTasks(prev => prev.map(t => (t._id === taskId || t.id === taskId) ? updated : t));
+};
 
   return (
     <AppContext.Provider value={{

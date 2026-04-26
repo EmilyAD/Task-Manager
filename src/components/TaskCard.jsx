@@ -86,7 +86,7 @@ export default function TaskCard({ task, onComplete, toggleSubtask, updateTaskPr
       value={task.growthStage || 0}
       onChange={(e) => {
         e.stopPropagation();
-        updateTaskProgress(task.id, Number(e.target.value));
+        updateTaskProgress(task._id, Number(e.target.value));
       }}
       className="w-full h-1 accent-green-500 cursor-pointer"
     />

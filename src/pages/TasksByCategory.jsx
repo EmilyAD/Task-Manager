@@ -138,7 +138,7 @@ export default function TasksByCategory() {
                 <div className="p-5 pt-0 space-y-4">
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {catTasks.map(task => (
-                      <TaskCard key={task.id} task={task} onComplete={() => completeTask(task.id)} />
+                      <TaskCard key={task._id} task={task} onComplete={() => completeTask(task._id)} />
                     ))}
                   </div>
                   <button
