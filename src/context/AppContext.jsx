@@ -36,8 +36,8 @@ export function AppProvider({ children }) {
   const login = async (email, password) => {
     const data = await loginUser(email, password);
     const newUser = {
-      name: data.user?.name || "User",
-      email,
+      name: data.name || "User",   
+      email: data.email || email,       
       profilePicture: null,
       joinDate: new Date().toISOString(),
       bio: "Growing my digital garden! 🌿"
