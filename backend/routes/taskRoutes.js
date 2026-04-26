@@ -12,8 +12,8 @@ const {
 const { protect } = require("../middleware/authMiddleware");
 
 // Public routes
-router.get("/", protect,getAllTasks);
-router.get("/:id", protect,getTaskById);
+router.get("/", getAllTasks);
+router.get("/:id", getTaskById);
 
 // Protected routes
 router.post("/", protect, createTask);
