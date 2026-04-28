@@ -3,6 +3,9 @@ const Task = require("../models/Task");
 // GET all tasks
 exports.getAllTasks = async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
     const tasks = await Task.find({ userId: req.user._id });
     res.json(tasks);
   } catch (err) {

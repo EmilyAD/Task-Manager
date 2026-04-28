@@ -32,7 +32,7 @@ export default function AddEditTask() {
     category: "Work",
     plantType: "🌱",
     dueDate: "",
-    subtasks: []
+    
   });
 
   const [errors, setErrors] = useState({});
@@ -42,7 +42,7 @@ export default function AddEditTask() {
     if (existingTask) {
       setFormData({
         ...existingTask,
-        subtasks: existingTask.subtasks || []
+        
       });
     }
   }, [existingTask]);
@@ -140,59 +140,10 @@ export default function AddEditTask() {
           />
         </div>
 
-        {/* SUBTASKS */}
-        <div>
-          <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
-            Subtasks
-          </label>
+        
 
-          <div className="space-y-2">
-            {(formData.subtasks || []).map((st) => (
-              <div key={st.id} className="flex gap-2">
-                <input
-                  type="text"
-                  value={st.text}
-                  onChange={(e) => {
-                    const updated = formData.subtasks.map(s =>
-                      s.id === st.id ? { ...s, text: e.target.value } : s
-                    );
-                    setFormData({ ...formData, subtasks: updated });
-                  }}
-                  className="flex-1 px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg"
-                />
+          
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFormData({
-                      ...formData,
-                      subtasks: formData.subtasks.filter(s => s.id !== st.id)
-                    });
-                  }}
-                  className="text-red-500"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              setFormData({
-                ...formData,
-                subtasks: [
-                  ...(formData.subtasks || []),
-                  { id: Date.now(), text: "", done: false }
-                ]
-              });
-            }}
-            className="mt-2 text-green-600 text-sm"
-          >
-            + Add subtask
-          </button>
-        </div>
 
         {/* CATEGORY */}
         <div>

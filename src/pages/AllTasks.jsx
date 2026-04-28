@@ -3,6 +3,7 @@ import { useApp } from "../context/AppContext";
 import TaskCard from "../components/TaskCard";
 import { Search, Trophy } from "lucide-react";
 
+
 const EMOJI_MAP = {
   "🌱": "seedling", "🌿": "herb", "🍀": "herb", "🪴": "potted_plant",
   "🌸": "cherry_blossom", "🌺": "hibiscus", "🌻": "sunflower",
@@ -316,7 +317,7 @@ export default function AllTasks({ preview = false }) {
     acc[task.category].push(task);
     return acc;
   }, {});
-
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("all");
   const [sortBy, setSortBy] = useState("date");

@@ -92,6 +92,8 @@ export default function TaskCard({ task, onComplete, toggleSubtask, updateTaskPr
   )}
 </div>
 
+
+
       {/* FOOTER */}
       <div className="flex items-center gap-4 mt-4 text-sm">
         <span className="px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-800 text-purple-600 dark:text-purple-200 text-xs font-medium">

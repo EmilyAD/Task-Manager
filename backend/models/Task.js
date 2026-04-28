@@ -20,5 +20,11 @@ const taskSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+// In models/Task.js - add this field to the schema
+subtasks: [
+  {
+    text: { type: String, required: true },
+    done: { type: Boolean, default: false }
+  }
+]
 module.exports = mongoose.model("Task", taskSchema);
